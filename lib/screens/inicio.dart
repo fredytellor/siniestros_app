@@ -16,7 +16,7 @@ class _InicioState extends State<Inicio> {
         position: DecorationPosition.background,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/fondo_prueba.jpg'),
+            image: AssetImage('assets/images/fondo_3.jpeg'),
             fit: BoxFit.cover,
           ),
         ),

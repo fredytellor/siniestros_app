@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class Inicio extends StatefulWidget {
   Inicio({Key key}) : super(key: key);
@@ -10,65 +11,113 @@ class Inicio extends StatefulWidget {
 class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: DecoratedBox(
-        position: DecorationPosition.background,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/fondo_3.jpeg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(40.0),
-          child: Form(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Center(
-                  child: Text(
-                    'Ingresa tu Cedula',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: DecoratedBox(
+            position: DecorationPosition.background,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/fondo_app.png'),
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+            child: Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: constraints.maxWidth / 20),
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Container(
+                    padding: EdgeInsets.only(top: 15),
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          'Ingresa tu \n   cedula',
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: constraints.maxWidth / 15),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: constraints.maxWidth / 10,
+                            //     vertical: constraints.maxWidth / 10,
+                          ),
+                          child: Form(
+                            child: Column(
+                              children: <Widget>[
+                                TextFormField(
+                                  cursorColor: Theme.of(context).primaryColor,
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
+                                  decoration: InputDecoration(
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                    disabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                    errorBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                    focusedErrorBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: constraints.maxHeight / 20,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: constraints.maxHeight / 20,
+                        ),
+                        FlatButton(
+                          
+                          onPressed: () {},
+                          color: Theme.of(context).primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Text('Comenzar',style: TextStyle(color: Colors.white),),
+                        ),
+                        SizedBox(
+                          height: constraints.maxHeight / 16,
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                TextFormField(
-                  maxLength: 12,
-                  style: TextStyle(
-                    color: Colors.green,
-                    fontSize: 26,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'Cedula de ciudadania',
-                    hintStyle: TextStyle(
-                      color: Colors.green,
-                      fontSize: 26,
-                    ),
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-                FlatButton(
-               //   padding: EdgeInsets.all(10),
-                  splashColor: Colors.orange,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 2,color: Colors.pink),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  onPressed: () {},
-                  child: Text(
-                    'Continuar',
-                    style: TextStyle(fontSize: 29, color: Colors.pink),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

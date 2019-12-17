@@ -48,7 +48,7 @@ class _InicioState extends State<Inicio> {
                           Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: constraints.maxWidth / 10,
-                              //     vertical: constraints.maxWidth / 10,
+                            
                             ),
                             child: Form(
                               key: _formKey,
@@ -75,12 +75,7 @@ class _InicioState extends State<Inicio> {
                                       helperStyle: TextStyle(
                                         color: Color.fromRGBO(0, 28, 200, 0.6),
                                         fontWeight: FontWeight.bold,
-                                      ),
-                                      //   hintText: '# de cedula',
-                                      //  hintStyle: TextStyle(
-                                      //  color: Color.fromRGBO(0, 28, 200, 0.6),
-                                      //   fontWeight: FontWeight.bold,
-                                      //   ),
+                                      ),                                    
                                       border: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Theme.of(context).primaryColor,

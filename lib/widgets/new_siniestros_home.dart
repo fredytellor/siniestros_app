@@ -20,10 +20,12 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min, children: <Widget>[
-          Text(
-            'New siniestros screen!',
-            style: TextStyle(
-              color: Color.fromRGBO(199, 172, 0, 1),
+          Center(
+            child: Text(
+              'New siniestros screen!',
+              style: TextStyle(
+                color: Color.fromRGBO(199, 172, 0, 1),
+              ),
             ),
           ),
         ]),

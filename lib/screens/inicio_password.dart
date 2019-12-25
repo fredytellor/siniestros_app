@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:siniestros_app/screens/home_screen.dart';
-import 'package:siniestros_app/screens/inicio_password.dart';
 
-class Inicio extends StatefulWidget {
+class InicioPassword extends StatefulWidget {
+ static const routeName='/inicio-password';
+
   @override
-  _InicioState createState() => _InicioState();
+  _InicioPasswordState createState() => _InicioPasswordState();
 }
 
-class _InicioState extends State<Inicio> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController cedulaController;
-
+class _InicioPasswordState extends State<InicioPassword> {
+   final _formKey = GlobalKey<FormState>();
+   TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -40,7 +39,7 @@ class _InicioState extends State<Inicio> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Text(
-                            'Ingresa tu \n   correo',
+                            ' Ingresa tu \ncontraseña',
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.bold,
@@ -65,7 +64,7 @@ class _InicioState extends State<Inicio> {
                                         return null;
                                       }
                                     },
-                                    controller: cedulaController,
+                                    controller: passwordController,
                                     cursorColor: Theme.of(context).primaryColor,
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor),
@@ -73,7 +72,7 @@ class _InicioState extends State<Inicio> {
                                       errorStyle: TextStyle(
                                         color: Color.fromRGBO(199, 172, 0, 1),
                                       ),
-                                      helperText: 'correo electronico',
+                                      helperText: 'contraseña',
                                       helperStyle: TextStyle(
                                         color: Color.fromRGBO(0, 28, 200, 0.6),
                                         fontWeight: FontWeight.bold,
@@ -123,8 +122,8 @@ class _InicioState extends State<Inicio> {
                           FlatButton(
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
-                                Navigator.of(context).pushReplacementNamed(
-                                    InicioPassword.routeName);
+                                Navigator.of(context)
+                                    .pushReplacementNamed(HomeScreen.routeName);
                               }
                             },
                             color: Theme.of(context).primaryColor,
@@ -132,32 +131,11 @@ class _InicioState extends State<Inicio> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: Text(
-                              'Continuar',
+                              'Ingresar',
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-                          SizedBox(
-                            height: constraints.maxHeight / 30,
-                          ),
-                          Align(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 25.0,
-                                ),
-                                child: GestureDetector(
-                                    onTap: () {
-                                      print('regirstrarse');
-                                    },
-                                    child: Text(
-                                      'Registrarse',
-                                      style: TextStyle(
-                                        fontSize: constraints.maxWidth / 25,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.indigo,
-                                      ),
-                                    )),
-                              )),
+                        
                           SizedBox(
                             height: constraints.maxHeight / 26,
                           ),

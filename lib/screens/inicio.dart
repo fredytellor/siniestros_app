@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:siniestros_app/screens/home_screen.dart';
+import 'package:siniestros_app/providers/methods.dart';
 import 'package:siniestros_app/screens/inicio_password.dart';
+import 'package:siniestros_app/widgets/dialogs.dart';
+import '../widgets/dialogs.dart';
 
 class Inicio extends StatefulWidget {
   @override
@@ -10,10 +12,29 @@ class Inicio extends StatefulWidget {
 
 class _InicioState extends State<Inicio> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController cedulaController;
+  TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    void validarEmail() async {
+      Methods methods = new Methods();
+      var result = await methods.consultarInicioEmail(emailController.text);
+      if (result) {
+        Navigator.of(context).pushReplacementNamed(InicioPassword.routeName);
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return Dialogs(
+                textTitle: 'Ops!',
+                buttonFunction: (){Navigator.of(context).pop();},
+                textButton: 'Intentar de nuevo',
+                textContent: '   No pudimos encontrar una\n  cuenta asociada a este correo',                
+              );
+            });
+      }
+    }
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return Scaffold(
@@ -55,6 +76,9 @@ class _InicioState extends State<Inicio> {
                               child: Column(
                                 children: <Widget>[
                                   TextFormField(
+                                    onSaved: (value) {
+                                      emailController.text = value;
+                                    },
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value.isEmpty ||
@@ -65,7 +89,7 @@ class _InicioState extends State<Inicio> {
                                         return null;
                                       }
                                     },
-                                    controller: cedulaController,
+                                    controller: emailController,
                                     cursorColor: Theme.of(context).primaryColor,
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor),
@@ -123,8 +147,8 @@ class _InicioState extends State<Inicio> {
                           FlatButton(
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
-                                Navigator.of(context).pushReplacementNamed(
-                                    InicioPassword.routeName);
+                                _formKey.currentState.save();
+                                validarEmail();
                               }
                             },
                             color: Theme.of(context).primaryColor,

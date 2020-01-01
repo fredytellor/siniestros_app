@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 import 'package:siniestros_app/providers/methods.dart';
 import 'package:siniestros_app/screens/inicio_password.dart';
 import 'package:siniestros_app/widgets/dialogs.dart';
@@ -16,22 +17,30 @@ class _InicioState extends State<Inicio> {
 
   @override
   Widget build(BuildContext context) {
+Methods methods= Provider.of<Methods>(context);
+
+
     void validarEmail() async {
-      Methods methods = new Methods();
+    
       var result = await methods.consultarInicioEmail(emailController.text);
       if (result) {
+        methods.setEmail(emailController.text);
         Navigator.of(context).pushReplacementNamed(InicioPassword.routeName);
       } else {
         showDialog(
-            context: context,
-            builder: (context) {
-              return Dialogs(
-                textTitle: 'Ops!',
-                buttonFunction: (){Navigator.of(context).pop();},
-                textButton: 'Intentar de nuevo',
-                textContent: '   No pudimos encontrar una\n  cuenta asociada a este correo',                
-              );
-            });
+          context: context,
+          builder: (context) {
+            return Dialogs(
+              textTitle: 'Ops!',
+              buttonFunction: () {
+                Navigator.of(context).pop();
+              },
+              textButton: 'Intentar de nuevo',
+              textContent:
+                  '   No pudimos encontrar una\n  cuenta asociada a este correo',
+            );
+          },
+        );
       }
     }
 

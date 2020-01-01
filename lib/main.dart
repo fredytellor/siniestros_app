@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:siniestros_app/providers/methods.dart';
 import 'package:siniestros_app/screens/home_screen.dart';
 import 'package:siniestros_app/screens/inicio_password.dart';
 import 'package:siniestros_app/screens/registro_screen.dart';
 import './screens/inicio.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-        primaryColor: Colors.indigo,
+    return ChangeNotifierProvider(
+     // builder:(ctx)=>Methods(), 
+     create: (context)=>Methods(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+          primaryColor: Colors.indigo,
+        ),
+        routes: {
+          '/': (BuildContext context) => Inicio(),
+          HomeScreen.routeName: (BuildContext context) => HomeScreen(),
+          InicioPassword.routeName:(BuildContext context)=>InicioPassword(),
+          RegistroScreen.routeName:(BuildContext context)=>RegistroScreen(),
+        },
       ),
-      routes: {
-        '/': (BuildContext context) => Inicio(),
-        HomeScreen.routeName: (BuildContext context) => HomeScreen(),
-        InicioPassword.routeName:(BuildContext context)=>InicioPassword(),
-        RegistroScreen.routeName:(BuildContext context)=>RegistroScreen(),
-      },
     );
   }
 }

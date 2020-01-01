@@ -21,15 +21,25 @@ class _DialogsState extends State<Dialogs> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Center(
-          child: Text(
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 30,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      title: Text(
         widget.textTitle,
         style: TextStyle(
           color: Colors.red,
           fontSize: 30,
         ),
-      )),
-      content: Text(widget.textContent),
+        textAlign: TextAlign.center,
+      ),
+      content: Text(
+        widget.textContent,
+        textAlign: TextAlign.center,
+      ),
       actions: <Widget>[
         FlatButton(
           onPressed: widget.buttonFunction,

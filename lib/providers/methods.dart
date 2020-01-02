@@ -14,6 +14,10 @@ class Methods with ChangeNotifier {
     notifyListeners();
   }
 
+  void closeDBSesion()async{
+    await FirebaseAuth.instance.signOut();
+  }
+
   Future<bool> consultarInicioEmail(String email) async {
     try {
       var result =
@@ -38,7 +42,7 @@ class Methods with ChangeNotifier {
           'status': true,
           'error': '',
           'uid': result.user.uid,
-        };;
+        };
     } catch (error) {
       print(error);
       if (error.code == 'ERROR_WRONG_PASSWORD') {

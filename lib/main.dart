@@ -3,6 +3,7 @@ import 'package:siniestros_app/providers/methods.dart';
 import 'package:siniestros_app/screens/home_screen.dart';
 import 'package:siniestros_app/screens/inicio_password.dart';
 import 'package:siniestros_app/screens/registro_screen.dart';
+import 'package:siniestros_app/screens/splash.dart';
 import './screens/inicio.dart';
 import 'package:provider/provider.dart';
 
@@ -15,13 +16,14 @@ class MyApp extends StatelessWidget {
      // builder:(ctx)=>Methods(), 
      create: (context)=>Methods(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Siniestros',
         theme: ThemeData(
           primarySwatch: Colors.red,
           primaryColor: Colors.indigo,
         ),
         routes: {
-          '/': (BuildContext context) => Inicio(),
+          '/': (BuildContext context)=>Splash(),
+          Inicio.routeName:(BuildContext context) => Inicio(),
           HomeScreen.routeName: (BuildContext context) => HomeScreen(),
           InicioPassword.routeName:(BuildContext context)=>InicioPassword(),
           RegistroScreen.routeName:(BuildContext context)=>RegistroScreen(),

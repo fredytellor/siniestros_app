@@ -7,9 +7,11 @@ import 'package:siniestros_app/widgets/dialogs.dart';
 import '../widgets/dialogs.dart';
 
 class Inicio extends StatefulWidget {
+  static const routeName='/inicio';
   @override
   _InicioState createState() => _InicioState();
 }
+
 
 class _InicioState extends State<Inicio> {
   final _formKey = GlobalKey<FormState>();

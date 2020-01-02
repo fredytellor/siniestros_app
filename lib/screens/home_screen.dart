@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:siniestros_app/providers/methods.dart';
 import 'package:siniestros_app/screens/inicio.dart';
 import 'package:siniestros_app/widgets/my_siniestros_home.dart';
 import 'package:siniestros_app/widgets/new_siniestros_home.dart';
@@ -16,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Methods methods =Provider.of<Methods>(context);
     return LayoutBuilder(builder: (context, constraints) {
       final List homeViews = [
         PerfilHomeSiniestros(constraints),
@@ -41,10 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Center(
                     child: GestureDetector(
                       onTap: (){
-                         Navigator.of(context)
-                                    .pushReplacement(MaterialPageRoute(builder: (context) {
-                                  return Inicio();
-                                }));
+                        Navigator.of(context).pushReplacementNamed(Inicio.routeName);
+                        methods.closeDBSesion();
                       },
                                           child: Text(
                         'Siniestros',

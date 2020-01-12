@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:siniestros_app/models/usuario.dart';
 
 class Methods with ChangeNotifier {
   String _email;
-  // String _password;
+ Usuario user=new Usuario();
 
   String get email {
     return _email;

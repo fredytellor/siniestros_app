@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:siniestros_app/providers/methods.dart';
 import 'package:siniestros_app/screens/home_screen.dart';
 import 'package:siniestros_app/screens/inicio_password.dart';
+import 'package:siniestros_app/screens/registro_correo.dart';
 import 'package:siniestros_app/screens/registro_screen.dart';
 import 'package:siniestros_app/screens/splash.dart';
 import './screens/inicio.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (BuildContext context) => HomeScreen(),
           InicioPassword.routeName:(BuildContext context)=>InicioPassword(),
           RegistroScreen.routeName:(BuildContext context)=>RegistroScreen(),
+          RegistroCorreo.routeName:(BuildContext context)=>RegistroCorreo(),
         },
       ),
     );

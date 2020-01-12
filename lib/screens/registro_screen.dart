@@ -8,7 +8,7 @@ class RegistroScreen extends StatefulWidget {
 
 class _RegistroScreenState extends State<RegistroScreen> {
   final _formKey = GlobalKey<FormState>();
-
+  TextEditingController cedulaController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -52,9 +52,9 @@ class _RegistroScreenState extends State<RegistroScreen> {
                               key: _formKey,
                               child: Column(
                                 children: <Widget>[
-                                    TextFormField(
+                                  TextFormField(
                                     onSaved: (value) {
-                                  //    emailController.text = value;
+                                      //    emailController.text = value;
                                     },
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
@@ -66,7 +66,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                         return null;
                                       }
                                     },
-                                  //  controller: emailController,
+                                    controller: cedulaController,
                                     cursorColor: Theme.of(context).primaryColor,
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor),
@@ -74,11 +74,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                       errorStyle: TextStyle(
                                         color: Color.fromRGBO(199, 172, 0, 1),
                                       ),
-                                      helperText: 'correo electronico',
-                                      helperStyle: TextStyle(
-                                        color: Color.fromRGBO(0, 28, 200, 0.6),
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      labelText: 'cedula',
                                       border: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Theme.of(context).primaryColor,
@@ -110,6 +106,13 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                         ),
                                       ),
                                     ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  FlatButton(
+                                    child: Text('Continuar'),
+                                    onPressed: () {},
                                   ),
                                 ],
                               ),

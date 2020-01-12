@@ -3,15 +3,15 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:siniestros_app/providers/methods.dart';
 import 'package:siniestros_app/screens/inicio_password.dart';
+import 'package:siniestros_app/screens/registro_screen.dart';
 import 'package:siniestros_app/widgets/dialogs.dart';
 import '../widgets/dialogs.dart';
 
 class Inicio extends StatefulWidget {
-  static const routeName='/inicio';
+  static const routeName = '/inicio';
   @override
   _InicioState createState() => _InicioState();
 }
-
 
 class _InicioState extends State<Inicio> {
   final _formKey = GlobalKey<FormState>();
@@ -19,11 +19,9 @@ class _InicioState extends State<Inicio> {
 
   @override
   Widget build(BuildContext context) {
-Methods methods= Provider.of<Methods>(context);
-
+    Methods methods = Provider.of<Methods>(context);
 
     void validarEmail() async {
-    
       var result = await methods.consultarInicioEmail(emailController.text);
       if (result) {
         methods.setEmail(emailController.text);
@@ -182,7 +180,9 @@ Methods methods= Provider.of<Methods>(context);
                                 ),
                                 child: GestureDetector(
                                     onTap: () {
-                                      print('regirstrarse');
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              RegistroScreen.routeName);
                                     },
                                     child: Text(
                                       'Registrarse',

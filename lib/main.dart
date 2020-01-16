@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Siniestros',
         theme: ThemeData(
-          primarySwatch: Colors.red,
+         // primarySwatch: Colors.red,
           primaryColor: Colors.indigo,
         ),
         routes: {

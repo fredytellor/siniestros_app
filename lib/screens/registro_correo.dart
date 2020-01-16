@@ -7,8 +7,6 @@ import 'package:siniestros_app/widgets/dialogs.dart';
 class RegistroCorreo extends StatefulWidget {
   static const routeName = '/registro-correo';
 
-  RegistroCorreo({Key key}) : super(key: key);
-
   @override
   _RegistroCorreoState createState() => _RegistroCorreoState();
 }

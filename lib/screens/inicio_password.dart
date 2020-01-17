@@ -64,7 +64,7 @@ class _InicioPasswordState extends State<InicioPassword> {
                 height: 15,
               ),
               Text(
-                'Ingresa tu \n   correo',
+                ' Ingresa tu\ncontraseña',
                 style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,

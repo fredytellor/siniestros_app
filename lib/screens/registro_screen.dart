@@ -42,7 +42,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
             'ciudad': selectedCiudad,
             'departamento': 'Santander',
             'direccion': '',
-          }
+          },          
         };
 
        var result=await   methods.crearUsuario(newUser);

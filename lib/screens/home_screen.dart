@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var viewSelected = 0;
+  var viewSelected = 1;
 
   @override
   Widget build(BuildContext context) {

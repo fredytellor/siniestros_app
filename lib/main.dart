@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
      // builder:(ctx)=>Methods(), 
      create: (context)=>Methods(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Siniestros',
         theme: ThemeData(
          // primarySwatch: Colors.red,

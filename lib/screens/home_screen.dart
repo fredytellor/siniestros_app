@@ -49,32 +49,35 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Row(
                             children: <Widget>[
                               Expanded(
-                                flex: 1,
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed(Inicio.routeName);
-                                  },
-                                  color: Colors.indigo,
-                                ),
-                              ),
-                              Expanded(
                                 flex: 5,
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                      left: constraints.maxWidth / 8),
+                                      right: constraints.maxWidth / 8),
                                   child: Text(
                                     'Siniestros',
+                                    textAlign: TextAlign.right,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: constraints.maxWidth * 0.1,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.launch,
+                                    color: Colors.white,
+                                  ),
+                                  tooltip: 'cerrar sesion',
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(Inicio.routeName);
+                                        methods.closeDBSesion();
+                                  },
+                                  color: Colors.indigo,
                                 ),
                               ),
                             ],
@@ -95,28 +98,38 @@ class _HomeScreenState extends State<HomeScreen> {
                               });
                             },
                             backgroundColor: Colors.indigo,
-                            selectedLabelStyle:
-                                TextStyle(fontWeight: FontWeight.bold,decoration: TextDecoration.underline,),
-                                
+                            selectedLabelStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                            ),
                             items: [
                               BottomNavigationBarItem(
-                                title: Text('Perfil',style: TextStyle(color: Colors.white),),
+                                title: Text(
+                                  'Perfil',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 icon: Icon(
                                   Icons.person,
-                                  size:15,
+                                  size: 15,
                                   color: Colors.white,
                                 ),
                               ),
                               BottomNavigationBarItem(
-                                title: Text('Nuevo',style: TextStyle(color: Colors.white),),
+                                title: Text(
+                                  'Nuevo',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 icon: Icon(
                                   Icons.add_box,
-                                  size:20,
+                                  size: 20,
                                   color: Colors.white,
                                 ),
                               ),
                               BottomNavigationBarItem(
-                                title: Text('Mios',style: TextStyle(color: Colors.white),),
+                                title: Text(
+                                  'Mios',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 icon: Icon(
                                   Icons.receipt,
                                   size: 15,

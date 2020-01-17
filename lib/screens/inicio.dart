@@ -219,10 +219,10 @@ class _InicioState extends State<Inicio> {
                           height: constraints.maxHeight * 0.2,
                           child: Center(
                             child: Text(
-                              'Siniestros',
+                              'Bienvenido a\n Siniestrapp',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: constraints.maxWidth * 0.1,
+                                fontSize: constraints.maxWidth * 0.08,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

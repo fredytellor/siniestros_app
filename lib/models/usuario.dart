@@ -10,7 +10,7 @@ class Usuario {
 
   Map<dynamic, dynamic> ubicacion = {
     'ciudad':'',
-    'municipio':'',
+    'departamento':'',
     'direccion':'',    
   };
 

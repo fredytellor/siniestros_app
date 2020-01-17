@@ -16,7 +16,7 @@ class _PerfilHomeSiniestrosState extends State<PerfilHomeSiniestros> {
           child: Text(
             'Mi perfil',
             style: TextStyle(
-              color: Color.fromRGBO(199, 172, 0, 1),
+             color: Colors.indigo,
             ),
       ),
     );

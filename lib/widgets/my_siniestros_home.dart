@@ -13,7 +13,7 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
     return Center(
       child: Text('Mis siniestros screen',
           style: TextStyle(
-            color: Color.fromRGBO(199, 172, 0, 1),
+            color: Colors.indigo,
           )),
     );
   }

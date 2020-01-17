@@ -24,7 +24,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
             child: Text(
               'New siniestros screen!',
               style: TextStyle(
-                color: Color.fromRGBO(199, 172, 0, 1),
+               color: Colors.indigo,
               ),
             ),
           ),

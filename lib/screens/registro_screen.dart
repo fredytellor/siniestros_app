@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:siniestros_app/providers/methods.dart';
+import 'package:siniestros_app/screens/home_screen.dart';
 import 'package:siniestros_app/screens/registro_correo.dart';
 
 class RegistroScreen extends StatefulWidget {
@@ -17,14 +18,43 @@ class _RegistroScreenState extends State<RegistroScreen> {
   TextEditingController edadController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String selectedOcupacion;
+  String selectedCiudad;
   @override
   Widget build(BuildContext context) {
     Methods methods = Provider.of<Methods>(context);
 
-    void _crearUsuario() {
+    void _crearUsuario() async {
+      var newUID = await methods.crearAutenticacion(
+          methods.user.profile_info['email'], passwordController.text);
 
-      
+      if (newUID != null) {
+        methods.uid = newUID;
+        Map<String, dynamic> newUser = {
+          'profile_info': {
+            'nombres': nombresController.text,
+            'apellidos': apellidosController.text,
+            'cedula': cedulaController.text,
+            'edad': edadController.text,
+            'rol': '1',
+            'ocupacion': selectedOcupacion,
+          },
+          'ubicacion': {
+            'ciudad': selectedCiudad,
+            'departamento': 'Santander',
+            'direccion': '',
+          }
+        };
 
+       var result=await   methods.crearUsuario(newUser);
+
+      if(result!=null){
+        print('usuario '+methods.uid+' creado!');
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      }else{
+        print(result);
+      }
+
+      }
     }
 
     Widget _buildContent(BoxConstraints constraints) {
@@ -264,17 +294,15 @@ class _RegistroScreenState extends State<RegistroScreen> {
                           },
                           keyboardType: TextInputType.number,
                           validator: (value) {
-                            if (value != null && value!='') {
-                               int valueInt = int.parse(value.trim());
+                            if (value != null && value != '') {
+                              int valueInt = int.parse(value.trim());
                               if ((valueInt < 18)) {
                                 return 'Deberias ser mayor de edad';
-                              }else{
+                              } else {
                                 return null;
                               }
-                             
-                              
                             } else {
-                             return 'Introduce tu edad';
+                              return 'Introduce tu edad';
                             }
                           },
                           cursorColor: Theme.of(context).primaryColor,
@@ -326,7 +354,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                           obscureText: true,
                           controller: passwordController,
                           onSaved: (value) {
-                            passwordController.text = value;
+                            passwordController.text = value.trim();
                           },
                           keyboardType: TextInputType.text,
                           validator: (value) {
@@ -380,58 +408,157 @@ class _RegistroScreenState extends State<RegistroScreen> {
                         SizedBox(
                           height: constraints.maxHeight / 20,
                         ),
-                        FormField(
-                          builder: (child) {
-                            return DropdownButton<String>(
-                              onChanged: (newValue) {
-                                setState(() {
-                                  selectedOcupacion = newValue;
-                                });
-                              },
-                              isExpanded: false,
-                              value: selectedOcupacion,
-                              hint: Text('Ocupacion'),
-                              items: [
-                                DropdownMenuItem(
-                                  child: Text(
-                                    'Empleado',
-                                    style: TextStyle(
-                                        color: Colors.indigo,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  key: Key('Empleado'),
-                                ),
-                                DropdownMenuItem(
-                                  child: Text(
-                                    'Independiente',
-                                    style: TextStyle(
-                                        color: Colors.indigo,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  key: Key('Independiente'),
-                                ),
-                                DropdownMenuItem(
-                                  child: Text(
-                                    'Estudiante',
-                                    style: TextStyle(
-                                        color: Colors.indigo,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  key: Key('Estudiante'),
-                                ),
-                                DropdownMenuItem(
-                                  child: Text(
-                                    'Otro',
-                                    style: TextStyle(
-                                        color: Colors.indigo,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  key: Key('Otro'),
-                                ),
-                              ],
-                              iconEnabledColor: Colors.indigo,
-                            );
-                          },
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                'Ocupacion:',
+                                style: TextStyle(
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: FormField(
+                                builder: (child) {
+                                  return DropdownButton<String>(
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        selectedOcupacion = newValue;
+                                      });
+                                    },
+                                    isExpanded: true,
+                                    value: selectedOcupacion,
+                                    hint: Text('Elige tu ocupacion'),
+                                    items: [
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Empleado',
+                                          style: TextStyle(
+                                              color: Colors.indigo,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        key: Key('Empleado'),
+                                        value: 'Empleado',
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Independiente',
+                                          style: TextStyle(
+                                              color: Colors.indigo,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        key: Key('Independiente'),
+                                        value: 'Independiente',
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Estudiante',
+                                          style: TextStyle(
+                                              color: Colors.indigo,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        key: Key('Estudiante'),
+                                        value: 'Estudiante',
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Otro',
+                                          style: TextStyle(
+                                              color: Colors.indigo,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        key: Key('Otro'),
+                                        value: 'Otro',
+                                      ),
+                                    ],
+                                    iconEnabledColor: Colors.indigo,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: constraints.maxHeight / 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                'Ciudad:',
+                                style: TextStyle(
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: FormField(
+                                builder: (child) {
+                                  return DropdownButton<String>(
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        selectedCiudad = newValue;
+                                      });
+                                    },
+                                    isExpanded: true,
+                                    value: selectedCiudad,
+                                    hint: Text('Elige tu Ciudad'),
+                                    items: [
+                                      DropdownMenuItem(
+                                        value: 'Bucaramanga',
+                                        child: Text(
+                                          'Bucaramanga',
+                                          style: TextStyle(
+                                              color: Colors.indigo,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        key: Key('Bucaramanga'),
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Girón',
+                                          style: TextStyle(
+                                              color: Colors.indigo,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                       value: 'Giron',
+                                        key: Key('Giron'),
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Floridablanca',
+                                          
+                                          style: TextStyle(
+                                              color: Colors.indigo,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                         value: 'Floridablanca',
+                                        key: Key('Floridablanca'),
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Piedecuesta',
+                                          style: TextStyle(
+                                              color: Colors.indigo,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        value: 'Piedecuesta',
+                                        key: Key('Piedecuesta'),
+                                      ),
+                                    ],
+                                    iconEnabledColor: Colors.indigo,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: constraints.maxHeight / 80,

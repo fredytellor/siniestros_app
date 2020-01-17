@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:siniestros_app/models/usuario.dart';
@@ -5,6 +6,7 @@ import 'package:siniestros_app/models/usuario.dart';
 class Methods with ChangeNotifier {
   String _email;
   Usuario user = new Usuario();
+  String uid;
 
   String get email {
     return _email;
@@ -70,6 +72,23 @@ class Methods with ChangeNotifier {
     } catch (error) {
       print(error);
       return null;
+    }
+  }
+
+  Future<bool> crearUsuario(Map<String, dynamic> newUser) async {
+    var result = false;
+    try {
+      Firestore.instance
+          .collection('usuarios')
+          .document(uid)
+          .setData(newUser)
+          .then((_) {
+        result = true;
+      });
+      return result;
+    } catch (error) {
+      print(error);
+      return result;
     }
   }
 } //fin methods

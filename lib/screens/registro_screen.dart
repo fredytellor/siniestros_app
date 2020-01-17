@@ -15,13 +15,15 @@ class _RegistroScreenState extends State<RegistroScreen> {
   TextEditingController apellidosController = TextEditingController();
   TextEditingController cedulaController = TextEditingController();
   TextEditingController edadController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   String selectedOcupacion;
   @override
   Widget build(BuildContext context) {
     Methods methods = Provider.of<Methods>(context);
 
+    void _crearUsuario() {
 
-    void _crearUsuario(){
+      
 
     }
 
@@ -256,25 +258,89 @@ class _RegistroScreenState extends State<RegistroScreen> {
                         ),
                         TextFormField(
                           maxLength: 2,
+                          controller: edadController,
                           onSaved: (value) {
                             edadController.text = value;
                           },
                           keyboardType: TextInputType.number,
                           validator: (value) {
-                            var intValue = int.parse(value);
-                            if (value == null || (intValue < 18)) {
-                              return 'Debes ser mayor de edad';
+                            if (value != null && value!='') {
+                               int valueInt = int.parse(value.trim());
+                              if ((valueInt < 18)) {
+                                return 'Deberias ser mayor de edad';
+                              }else{
+                                return null;
+                              }
+                             
+                              
                             } else {
-                              return null;
+                             return 'Introduce tu edad';
                             }
                           },
-                          controller: edadController,
                           cursorColor: Theme.of(context).primaryColor,
                           style:
                               TextStyle(color: Theme.of(context).primaryColor),
                           decoration: InputDecoration(
                             counterText: '',
                             labelText: 'Edad',
+                            labelStyle: TextStyle(
+                              color: Colors.indigo,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            disabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            errorBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            focusedErrorBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: constraints.maxHeight / 20,
+                        ),
+                        TextFormField(
+                          obscureText: true,
+                          controller: passwordController,
+                          onSaved: (value) {
+                            passwordController.text = value;
+                          },
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value == null || (value.trim().length < 6)) {
+                              return 'Debe tener al menos 6 digitos';
+                            } else {
+                              return null;
+                            }
+                          },
+                          cursorColor: Theme.of(context).primaryColor,
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                          decoration: InputDecoration(
+                            labelText: 'Contraseña',
                             labelStyle: TextStyle(
                               color: Colors.indigo,
                               fontWeight: FontWeight.bold,
@@ -374,7 +440,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
-                               _crearUsuario();
+                              _crearUsuario();
                             }
                           },
                           color: Theme.of(context).primaryColor,

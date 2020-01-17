@@ -4,7 +4,7 @@ import 'package:siniestros_app/models/usuario.dart';
 
 class Methods with ChangeNotifier {
   String _email;
- Usuario user=new Usuario();
+  Usuario user = new Usuario();
 
   String get email {
     return _email;
@@ -15,7 +15,7 @@ class Methods with ChangeNotifier {
     notifyListeners();
   }
 
-  void closeDBSesion()async{
+  void closeDBSesion() async {
     await FirebaseAuth.instance.signOut();
   }
 
@@ -40,10 +40,10 @@ class Methods with ChangeNotifier {
       var result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       return {
-          'status': true,
-          'error': '',
-          'uid': result.user.uid,
-        };
+        'status': true,
+        'error': '',
+        'uid': result.user.uid,
+      };
     } catch (error) {
       print(error);
       if (error.code == 'ERROR_WRONG_PASSWORD') {
@@ -53,6 +53,22 @@ class Methods with ChangeNotifier {
           'uid': '',
         };
       }
+      return null;
+    }
+  }
+
+  Future<String> crearAutenticacion(String email, String pasword) async {
+    try {
+      AuthResult result = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: pasword);
+
+      if (result != null) {
+        return result.user.uid;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      print(error);
       return null;
     }
   }

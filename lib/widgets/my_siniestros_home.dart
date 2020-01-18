@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class MySiniestrosHome extends StatefulWidget {
-  MySiniestrosHome({Key key}) : super(key: key);
+   final BoxConstraints constraints;
+
+  MySiniestrosHome(this.constraints);
+
 
   @override
   _MySiniestrosHomeState createState() => _MySiniestrosHomeState();
@@ -10,11 +13,18 @@ class MySiniestrosHome extends StatefulWidget {
 class _MySiniestrosHomeState extends State<MySiniestrosHome> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Mis siniestros screen',
-          style: TextStyle(
-            color: Colors.indigo,
-          )),
+      return Container(
+      decoration: BoxDecoration(color: Colors.white),
+      height: widget.constraints.maxHeight * 0.9,
+      padding: EdgeInsets.only(
+        top: widget.constraints.maxHeight * 0.1,
+        left: 20,
+        right: 20,
+        bottom: 20,
+      ),
+      child: Center(
+        child: Text('Mis siniestros'),
+      ),
     );
   }
 }

@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final List homeViews = [
           PerfilHomeSiniestros(constraints),
           NewSiniestrosHome(constraints),
-          MySiniestrosHome(),
+          MySiniestrosHome(constraints),
         ];
         return SingleChildScrollView(
           child: Container(
@@ -39,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: <Widget>[
                         Container(
                           height: constraints.maxHeight,
-                          child: homeViews[viewSelected],
-                          
+                          child:SingleChildScrollView(child:  homeViews[viewSelected]),
+                          color: Colors.red,
                         ),
                         Positioned(
                           top: 0,

@@ -23,11 +23,12 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   Position devicePosition;
   TextEditingController descripcionController = TextEditingController();
   String textPosition;
+  String dia;
   List<Placemark> placemark;
   @override
   Widget build(BuildContext context) {
     Methods methods = Provider.of<Methods>(context);
-
+    dia = DateFormat('EEEEE').format(DateTime.now());
     Future<void> _getPosition() async {
       await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
@@ -136,7 +137,8 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                   ),
                 ),
                 Text(
-                  DateFormat('MM/d/y').format(DateTime.now()),
+                  DateFormat('MM/d/y').format(DateTime.now()) + '\n' + dia,
+                  textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.black54),
                 ),
                 SizedBox(

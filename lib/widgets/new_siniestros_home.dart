@@ -152,7 +152,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
         selectedCondicionCarretera = null;
         ciudad = null;
         dia = null;
-        descripcionController.text =null;
+        descripcionController.text ='';
         textPosition = null;
         _image = null;
         

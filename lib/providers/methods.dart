@@ -93,6 +93,9 @@ class Methods with ChangeNotifier {
 
   void closeDBSesion() async {
     await FirebaseAuth.instance.signOut();
+    uid=null;
+    siniestro=null;
+    user=null;
   }
 
   Future<bool> consultarInicioEmail(String email) async {

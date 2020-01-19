@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:siniestros_app/models/siniestro.dart';
 import 'package:siniestros_app/models/usuario.dart';
 
 class Methods with ChangeNotifier {
   String _email;
   Usuario user = new Usuario();
   String uid;
+  Siniestro siniestro = new Siniestro();
 
   String get email {
     return _email;

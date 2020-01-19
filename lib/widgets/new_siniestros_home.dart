@@ -24,6 +24,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   TextEditingController descripcionController = TextEditingController();
   String textPosition;
   String dia;
+  String ciudad;
   List<Placemark> placemark;
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,8 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
     Future<void> _getAddress(double lati, double longi) async {
       placemark = await Geolocator().placemarkFromCoordinates(lati, longi);
 
-      textPosition = placemark[0].locality.toString() +
+      ciudad = placemark[0].locality.toString();
+      textPosition = ciudad +
           ',' +
           placemark[0].thoroughfare.toString() +
           '#' +
@@ -73,6 +75,28 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
           textPosition;
         });
       }
+    }
+
+    bool _validarRegistro() {
+      if (ciudad == null) {
+        methods.showSnackbar(
+            context: context,
+            duracion: 3,
+            mensaje: 'Es necesaria la ubicacion para registrar el siniestro');
+        return false;
+      } else if (_image == null) {
+        methods.showSnackbar(
+            context: context,
+            duracion: 3,
+            mensaje: 'Es necesaria una foto del siniestro');
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    void _crearRegistro() {
+      methods.siniestro.setSiniestro();
     }
 
     void _showMMapDialog() {
@@ -126,9 +150,12 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                SizedBox(
+                  height: 10,
+                ),
                 Center(
                   child: Text(
-                    'Registra nuevos siniestros',
+                    'Registra nuevo siniestro',
                     style: TextStyle(
                       color: Colors.indigo,
                       fontSize: 20,
@@ -139,7 +166,18 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 Text(
                   DateFormat('MM/d/y').format(DateTime.now()) + '\n' + dia,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.black54),
+                  style: TextStyle(color: Colors.indigo),
+                ),
+                Container(
+                  height: 2,
+                  width: widget.constraints.maxWidth,
+                  color: Colors.indigo[200],
+                ),
+                Center(
+                  child: Text(
+                    'Recuerda que la ubicacion y la foto son obligatorios',
+                    style: TextStyle(fontSize: 12, color: Colors.black54),
+                  ),
                 ),
                 SizedBox(
                   height: 30,
@@ -381,7 +419,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                         color: Colors.indigo,
                       ),
                       Text(
-                        (_image != null) ? 'Elegir otra foto' : 'Sube una foto',
+                        (_image != null) ? 'Tomar otra foto' : 'Toma una foto',
                         style: TextStyle(
                           color: Colors.black54,
                           fontSize: 12,
@@ -449,7 +487,11 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                   height: widget.constraints.maxHeight / 20,
                 ),
                 FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_validarRegistro()) {
+                      _crearRegistro();
+                    }
+                  },
                   color: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),

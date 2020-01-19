@@ -19,6 +19,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
   TextEditingController passwordController = TextEditingController();
   String selectedOcupacion;
   String selectedCiudad;
+  bool sexo = false;
   @override
   Widget build(BuildContext context) {
     Methods methods = Provider.of<Methods>(context);
@@ -37,23 +38,23 @@ class _RegistroScreenState extends State<RegistroScreen> {
             'edad': edadController.text,
             'rol': '1',
             'ocupacion': selectedOcupacion,
+            'genero':(sexo)?'Hombre':'Mujer',
           },
           'ubicacion': {
             'ciudad': selectedCiudad,
             'departamento': 'Santander',
             'direccion': '',
-          },          
+          },
         };
 
-       var result=await   methods.crearUsuario(newUser);
+        var result = await methods.crearUsuario(newUser);
 
-      if(result!=null){
-        print('usuario '+methods.uid+' creado!');
-        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-      }else{
-        print(result);
-      }
-
+        if (result != null) {
+          print('usuario ' + methods.uid + ' creado!');
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        } else {
+          print(result);
+        }
       }
     }
 
@@ -101,7 +102,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: constraints.maxWidth / 35,
+                    fontSize: constraints.maxWidth / 25,
                   ),
                 ),
                 Padding(
@@ -528,18 +529,17 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                               color: Colors.indigo,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                       value: 'Giron',
+                                        value: 'Giron',
                                         key: Key('Giron'),
                                       ),
                                       DropdownMenuItem(
                                         child: Text(
                                           'Floridablanca',
-                                          
                                           style: TextStyle(
                                               color: Colors.indigo,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                         value: 'Floridablanca',
+                                        value: 'Floridablanca',
                                         key: Key('Floridablanca'),
                                       ),
                                       DropdownMenuItem(
@@ -561,7 +561,31 @@ class _RegistroScreenState extends State<RegistroScreen> {
                           ],
                         ),
                         SizedBox(
-                          height: constraints.maxHeight / 80,
+                          height: constraints.maxHeight / 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text('Genero',style: TextStyle(color: Colors.indigo,fontWeight: FontWeight.bold),),
+                            Column(
+                              children: <Widget>[
+                                Switch(
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      sexo = newValue;
+                                    });
+                                  },
+                                  value: sexo,
+                                  activeColor: Colors.indigo,
+                                  inactiveTrackColor: Colors.purple,
+                                ),
+                                Text((sexo) ? 'Hombre' : 'Mujer',style: TextStyle(color: Colors.indigo,fontSize: 12,fontWeight: FontWeight.bold),),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: constraints.maxHeight / 20,
                         ),
                         FlatButton(
                           onPressed: () {
@@ -578,9 +602,6 @@ class _RegistroScreenState extends State<RegistroScreen> {
                             'Continuar',
                             style: TextStyle(color: Colors.white),
                           ),
-                        ),
-                        SizedBox(
-                          height: constraints.maxHeight / 20,
                         ),
                         SizedBox(
                           height: constraints.maxHeight / 26,

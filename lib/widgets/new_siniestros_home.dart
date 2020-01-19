@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class NewSiniestrosHome extends StatefulWidget {
   final BoxConstraints constraints;
@@ -13,10 +14,47 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   String selectedCondicionCarretera;
   String selectedFactorAmbiental;
   String selectedCausaPrimaria;
+  Position devicePosition;
   TextEditingController descripcionController = TextEditingController();
-
+  String textPosition = 'Dar la ubicacion';
+  List<Placemark> placemark;
   @override
   Widget build(BuildContext context) {
+    Future<void> _getPosition() async {
+      await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          .then((value) {
+        print(value);
+        devicePosition = value;
+      });
+    }
+
+    Future<void> _getAddress(double lati, double longi) async {
+      placemark = await Geolocator().placemarkFromCoordinates(lati, longi);
+
+      textPosition = placemark[0].locality.toString() +
+          ',' +
+          placemark[0].thoroughfare.toString() +
+          '#' +
+          placemark[0].subThoroughfare.toString() +
+          '.';
+      /* textPosition = placemark[0].name.toString() +
+          ',' +
+          placemark[0].locality.toString() +
+          ',' +
+          placemark[0].postalCode.toString();*/
+    }
+
+    Future<void> getPositionText() async {
+      await _getPosition();
+      if (devicePosition != null) {
+        await _getAddress(devicePosition.latitude, devicePosition.longitude);
+        setState(() {
+          textPosition;
+        });
+      }
+    }
+
     void _showMMapDialog() {
       showDialog(
           context: context,
@@ -96,10 +134,11 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                       flex: 4,
                       child: GestureDetector(
                         onTap: () {
-                          _showMMapDialog();
+                          //_showMMapDialog();
+                          getPositionText();
                         },
                         child: Text(
-                          'Elige la ubicacion',
+                          textPosition,
                           style: TextStyle(
                             color: Colors.green,
                             fontWeight: FontWeight.bold,

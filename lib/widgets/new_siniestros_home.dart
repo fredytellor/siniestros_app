@@ -96,6 +96,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
     }
 
     void _crearRegistro() async {
+      methods.showSnackbar(duracion: 59,context: context,mensaje: 'Creando registro...');
       methods.siniestro.setSiniestro(
         fecha: DateFormat('MM/d/y').format(DateTime.now()),
         ciudad: ciudad,
@@ -128,11 +129,13 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
               siniestroId: siniestroID, newSiniestro: methods.siniestro);
 
           if (result) {
+            Scaffold.of(context).hideCurrentSnackBar();
             methods.showSnackbar(
                 duracion: 3,
                 mensaje: 'Siniestro ' + siniestroID + ' registrado.',
                 context: context);
           } else {
+             Scaffold.of(context).hideCurrentSnackBar();
             methods.showSnackbar(
                 duracion: 3,
                 mensaje:
@@ -141,6 +144,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
           }
         }
       } else {
+         Scaffold.of(context).hideCurrentSnackBar();
         methods.showSnackbar(
             duracion: 3,
             mensaje: 'Hubo un error al tratar de registrar el siniestro.',

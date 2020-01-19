@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -14,12 +15,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   var viewSelected = 1;
 
   @override
   Widget build(BuildContext context) {
+   // DocumentSnapshot docActive= ModalRoute.of(context).settings.arguments as DocumentSnapshot;
     Methods methods = Provider.of<Methods>(context);
 
+    /*if(docActive!=null){
+        methods.user.setUsuario(docActive.data['profile_info'], docActive.data['ubicacion']);
+        print('document id from argument: '+docActive.documentID);
+    }*/
+//print('uid seteado: '+methods.uid);
     return LayoutBuilder(
       builder: (context, constraints) {
         final List homeViews = [

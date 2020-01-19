@@ -1,22 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:siniestros_app/providers/methods.dart';
 import 'package:siniestros_app/screens/home_screen.dart';
 import 'package:siniestros_app/screens/inicio.dart';
 
 class Splash extends StatefulWidget {
-  Splash({Key key}) : super(key: key);
-
   @override
   _SplashState createState() => _SplashState();
 }
 
 class _SplashState extends State<Splash> {
   bool isActive;
+  //FirebaseUser userActive;
+  DocumentSnapshot docActive;
 
   void isASesionActive() async {
     var result = await FirebaseAuth.instance.currentUser();
     if (result != null) {
       if (result.uid != null) {
+        docActive = await isRegistered(result.uid);
         isActive = true;
       } else {
         isActive = false;
@@ -27,9 +31,21 @@ class _SplashState extends State<Splash> {
     didChangeDependencies();
   }
 
+  Future<DocumentSnapshot> isRegistered(String uid) async {
+    DocumentSnapshot doc =
+        await Firestore.instance.collection('usuarios').document().get();
+
+    if (doc != null) {
+      return doc;
+    } else {
+      return null;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+   // FirebaseAuth.instance.signOut();
     isASesionActive();
   }
 
@@ -37,7 +53,8 @@ class _SplashState extends State<Splash> {
   void didChangeDependencies() {
     if (isActive != null) {
       if (isActive == true) {
-        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        Navigator.of(context)
+            .pushReplacementNamed(HomeScreen.routeName/*, arguments: docActive*/);
       } else {
         Navigator.of(context).pushReplacementNamed(Inicio.routeName);
       }
@@ -47,7 +64,8 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    //Methods methods = Provider.of<Methods>(context);
+    Methods methods = Provider.of<Methods>(context);
+
     return Container(
       child: Center(
         child: CircularProgressIndicator(),

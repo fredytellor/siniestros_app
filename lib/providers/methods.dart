@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,13 @@ class Methods with ChangeNotifier {
     _email = newEmail;
     notifyListeners();
   }
+
+
+    Future<String> cargarFoto(File imagen) {
+
+
+
+    }
 
   void closeDBSesion() async {
     await FirebaseAuth.instance.signOut();

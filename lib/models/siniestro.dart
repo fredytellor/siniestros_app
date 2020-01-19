@@ -7,6 +7,7 @@ class Siniestro {
   String condicionCarretera;
   String causaPrimaria;
   String factorAmbiental;
+  String foto;
 
   void setSiniestro({
     String ubicacion,
@@ -17,6 +18,7 @@ class Siniestro {
     String condicionCarretera,
     String causaPrimaria,
     String factorAmbiental,
+    String foto,
   }) {
     this.ubicacion = ubicacion;
     this.ciudad = ciudad;
@@ -26,5 +28,6 @@ class Siniestro {
     this.condicionCarretera = condicionCarretera;
     this.causaPrimaria = causaPrimaria;
     this.factorAmbiental = factorAmbiental;
+    this.foto = foto;
   }
 }

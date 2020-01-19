@@ -95,8 +95,17 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
       }
     }
 
-    void _crearRegistro() {
-      methods.siniestro.setSiniestro();
+
+    void _crearRegistro() async {
+
+
+methods.cargarFoto(_image);
+
+      /* methods.siniestro.setSiniestro(
+        fecha: DateFormat('MM/d/y').format(DateTime.now()),
+        ciudad: ciudad,
+        dia: dia,        
+      );*/
     }
 
     void _showMMapDialog() {

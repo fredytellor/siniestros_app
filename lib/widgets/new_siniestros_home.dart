@@ -38,7 +38,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
     }
 
     Future<void> _getImage() async {
-      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      var image = await ImagePicker.pickImage(source: ImageSource.camera);
       if (image != null) {
         setState(() {
           _image = image;

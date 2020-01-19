@@ -1,10 +1,10 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:siniestros_app/models/siniestro.dart';
 import 'package:siniestros_app/models/usuario.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Methods with ChangeNotifier {
   String _email;
@@ -21,12 +21,75 @@ class Methods with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<String> crearSiniestro(Siniestro newSiniestro) async {
+    String docId;
+    try {
+      Map<String, dynamic> newMapedSiniestro = {
+        'ubicacion': newSiniestro.ubicacion,
+        'ciudad': newSiniestro.ciudad,
+        'fecha': newSiniestro.fecha,
+        'dia': newSiniestro.dia,
+        'descripcion': newSiniestro.descripcion,
+        'condicionCarretera': newSiniestro.condicionCarretera,
+        'causaPrimaria': newSiniestro.causaPrimaria,
+        'factorAmbiental': newSiniestro.factorAmbiental,
+        'foto': newSiniestro.foto,
+        'registrador':newSiniestro.registradorUid,
+      };
 
-    Future<String> cargarFoto(File imagen) {
+      await Firestore.instance
+          .collection('siniestros')
+          .add(newMapedSiniestro)
+          .then((doc) {
+        print(doc.documentID);
+        docId = doc.documentID;
+      });
 
-
-
+      return docId;
+    } catch (error) {
+      print(error);
+      return null;
     }
+  }
+
+  Future<bool> updateSiniestro(
+      {String siniestroId, Siniestro newSiniestro}) async {
+    bool result = false;
+    Map<String, dynamic> newMapedSiniestro = {
+      'ubicacion': newSiniestro.ubicacion,
+      'ciudad': newSiniestro.ciudad,
+      'fecha': newSiniestro.fecha,
+      'dia': newSiniestro.dia,
+      'descripcion': newSiniestro.descripcion,
+      'condicionCarretera': newSiniestro.condicionCarretera,
+      'causaPrimaria': newSiniestro.causaPrimaria,
+      'factorAmbiental': newSiniestro.factorAmbiental,
+      'foto': newSiniestro.foto,
+      'registrador':newSiniestro.registradorUid,
+    };
+    await Firestore.instance
+        .collection('siniestros')
+        .document(siniestroId)
+        .setData(newMapedSiniestro)
+        .then((_) {
+      result = true;
+    });
+
+    return result;
+  }
+
+  Future<String> cargarFoto({File imagen, String idSiniestro}) async {
+    String url;
+    StorageReference storageReference =
+        FirebaseStorage().ref().child('/sinestros_fotos/${idSiniestro}');
+    StorageUploadTask upload =
+        storageReference.putData(imagen.readAsBytesSync());
+
+    url = await (await upload.onComplete).ref.getDownloadURL();
+
+    print('Foto del siniestro cargada al storage y url obtenida');
+    return url;
+  }
 
   void closeDBSesion() async {
     await FirebaseAuth.instance.signOut();

@@ -95,19 +95,70 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
       }
     }
 
-
     void _crearRegistro() async {
-
-
-methods.cargarFoto(_image);
-
-      /* methods.siniestro.setSiniestro(
+      methods.siniestro.setSiniestro(
         fecha: DateFormat('MM/d/y').format(DateTime.now()),
         ciudad: ciudad,
-        dia: dia,        
-      );*/
-    }
+        dia: dia,
+        foto: '',
+        causaPrimaria:
+            (selectedCausaPrimaria != null) ? selectedCausaPrimaria : '',
+        condicionCarretera: (selectedCondicionCarretera != null)
+            ? selectedCondicionCarretera
+            : '',
+        factorAmbiental:
+            (selectedFactorAmbiental != null) ? selectedFactorAmbiental : '',
+        descripcion: (descripcionController.text != null)
+            ? descripcionController.text
+            : '',
+        ubicacion: textPosition,
+        registradorUid: methods.uid,
+      );
 
+      String siniestroID = await methods.crearSiniestro(methods.siniestro);
+
+      if (siniestroID != null) {
+        String url =
+            await methods.cargarFoto(idSiniestro: siniestroID, imagen: _image);
+
+        if (url != null) {
+          methods.siniestro.foto = url;
+
+          var result = await methods.updateSiniestro(
+              siniestroId: siniestroID, newSiniestro: methods.siniestro);
+
+          if (result) {
+            methods.showSnackbar(
+                duracion: 3,
+                mensaje: 'Siniestro ' + siniestroID + ' registrado.',
+                context: context);
+          } else {
+            methods.showSnackbar(
+                duracion: 3,
+                mensaje:
+                    'No logramos vincular la foto del siniestro al registro',
+                context: context);
+          }
+        }
+      } else {
+        methods.showSnackbar(
+            duracion: 3,
+            mensaje: 'Hubo un error al tratar de registrar el siniestro.',
+            context: context);
+      }
+      setState(() {
+        selectedFactorAmbiental = null;
+        selectedCausaPrimaria = null;
+        selectedCondicionCarretera = null;
+        ciudad = null;
+        dia = null;
+        descripcionController.text =null;
+        textPosition = null;
+        _image = null;
+        
+      });
+    }
+/*
     void _showMMapDialog() {
       showDialog(
           context: context,
@@ -143,7 +194,7 @@ methods.cargarFoto(_image);
             );
           });
     }
-
+*/
     return Container(
       decoration: BoxDecoration(color: Colors.white),
       height: widget.constraints.maxHeight * 0.9,
@@ -311,11 +362,11 @@ methods.cargarFoto(_image);
                           return DropdownButton<String>(
                             onChanged: (newValue) {
                               setState(() {
-                                selectedCondicionCarretera = newValue;
+                                selectedFactorAmbiental = newValue;
                               });
                             },
                             isExpanded: true,
-                            value: selectedCondicionCarretera,
+                            value: selectedFactorAmbiental,
                             hint: Text('Elige el factor'),
                             items: [
                               DropdownMenuItem(
@@ -377,11 +428,11 @@ methods.cargarFoto(_image);
                           return DropdownButton<String>(
                             onChanged: (newValue) {
                               setState(() {
-                                selectedCondicionCarretera = newValue;
+                                selectedCausaPrimaria = newValue;
                               });
                             },
                             isExpanded: true,
-                            value: selectedCondicionCarretera,
+                            value: selectedCausaPrimaria,
                             hint: Text('Elige una causa'),
                             items: [
                               DropdownMenuItem(
@@ -441,6 +492,7 @@ methods.cargarFoto(_image);
                   height: 20,
                 ),
                 TextFormField(
+                  controller: descripcionController,
                   onSaved: (value) {},
                   keyboardType: TextInputType.text,
                   validator: (value) {

@@ -84,7 +84,7 @@ class _InicioPasswordState extends State<InicioPassword> {
                         onSaved: (value) {
                           passwordController.text = value;
                         },
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.visiblePassword,
                         validator: (value) {
                           if (value.isEmpty || value.trim().length < 6) {
                             return 'Contraseña incorrecta';

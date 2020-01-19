@@ -59,6 +59,17 @@ class Methods with ChangeNotifier {
     }
   }
 
+  void showSnackbar({BuildContext context, int duracion, String mensaje}) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(
+          seconds: duracion,
+        ),
+        content: Text(mensaje),
+      ),
+    );
+  }
+
   Future<String> crearAutenticacion(String email, String pasword) async {
     try {
       AuthResult result = await FirebaseAuth.instance

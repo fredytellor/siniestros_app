@@ -1,8 +1,10 @@
 import 'dart:io';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:siniestros_app/providers/methods.dart';
 
 class NewSiniestrosHome extends StatefulWidget {
   final BoxConstraints constraints;
@@ -24,6 +26,8 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   List<Placemark> placemark;
   @override
   Widget build(BuildContext context) {
+    Methods methods = Provider.of<Methods>(context);
+
     Future<void> _getPosition() async {
       await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
@@ -33,11 +37,20 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
       });
     }
 
-    Future <void> _getImage() async {
+    Future<void> _getImage() async {
       var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-      setState(() {
-        _image = image;
-      });
+      if (image != null) {
+        setState(() {
+          _image = image;
+        });
+        methods.showSnackbar(
+            context: context, duracion: 2, mensaje: 'Foto lista!');
+      } else {
+        methods.showSnackbar(
+            context: context,
+            duracion: 2,
+            mensaje: 'No has elegido una foto nueva');
+      }
     }
 
     Future<void> _getAddress(double lati, double longi) async {
@@ -121,6 +134,10 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                ),
+                Text(
+                  DateFormat('MM/d/y').format(DateTime.now()),
+                  style: TextStyle(color: Colors.black54),
                 ),
                 SizedBox(
                   height: 30,
@@ -349,16 +366,27 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 SizedBox(
                   height: 20,
                 ),
-                IconButton(
-                  color: Colors.red,
-                  icon: Icon(
-                    (_image!=null)?Icons.check_circle:Icons.add_a_photo,
-                    color: Colors.indigo,
-                  ),
-                  tooltip: 'Sube una foto',
-                  onPressed: () {
-                  _getImage();
+                GestureDetector(
+                  onTap: () {
+                    _getImage();
                   },
+                  child: Column(
+                    children: <Widget>[
+                      Icon(
+                        (_image != null)
+                            ? Icons.check_circle
+                            : Icons.add_a_photo,
+                        color: Colors.indigo,
+                      ),
+                      Text(
+                        (_image != null) ? 'Elegir otra foto' : 'Sube una foto',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 20,

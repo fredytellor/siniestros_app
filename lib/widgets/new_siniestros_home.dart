@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 
 class NewSiniestrosHome extends StatefulWidget {
   final BoxConstraints constraints;
@@ -12,11 +15,12 @@ class NewSiniestrosHome extends StatefulWidget {
 
 class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   String selectedCondicionCarretera;
+  File _image;
   String selectedFactorAmbiental;
   String selectedCausaPrimaria;
   Position devicePosition;
   TextEditingController descripcionController = TextEditingController();
-  String textPosition = 'Dar la ubicacion';
+  String textPosition;
   List<Placemark> placemark;
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,13 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
       });
     }
 
+    Future <void> _getImage() async {
+      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _image = image;
+      });
+    }
+
     Future<void> _getAddress(double lati, double longi) async {
       placemark = await Geolocator().placemarkFromCoordinates(lati, longi);
 
@@ -38,11 +49,6 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
           '#' +
           placemark[0].subThoroughfare.toString() +
           '.';
-      /* textPosition = placemark[0].name.toString() +
-          ',' +
-          placemark[0].locality.toString() +
-          ',' +
-          placemark[0].postalCode.toString();*/
     }
 
     Future<void> getPositionText() async {
@@ -132,19 +138,32 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     ),
                     Expanded(
                       flex: 4,
-                      child: GestureDetector(
-                        onTap: () {
-                          //_showMMapDialog();
-                          getPositionText();
-                        },
-                        child: Text(
-                          textPosition,
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
+                      child: Column(
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () {
+                              //_showMMapDialog();
+                              getPositionText();
+                            },
+                            child: Text(
+                              (textPosition != null)
+                                  ? textPosition
+                                  : 'Dar la ubicacion',
+                              style: TextStyle(
+                                color: Colors.indigo,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
                           ),
-                          textAlign: TextAlign.right,
-                        ),
+                          Text(
+                            'ubicacion del dispositivo aproximada',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.black45,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -280,7 +299,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     Expanded(
                       flex: 2,
                       child: Text(
-                        'Causa Primaria:',
+                        'Causa\nPrimaria:',
                         style: TextStyle(
                             color: Colors.indigo, fontWeight: FontWeight.bold),
                       ),
@@ -333,12 +352,12 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 IconButton(
                   color: Colors.red,
                   icon: Icon(
-                    Icons.add_a_photo,
+                    (_image!=null)?Icons.check_circle:Icons.add_a_photo,
                     color: Colors.indigo,
                   ),
                   tooltip: 'Sube una foto',
                   onPressed: () {
-                    print('subiendo');
+                  _getImage();
                   },
                 ),
                 SizedBox(
@@ -358,6 +377,8 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                   style: TextStyle(color: Theme.of(context).primaryColor),
                   decoration: InputDecoration(
                     labelText: 'Descripcion',
+                    hintText: '¿sabes que paso? danos detalles.',
+                    hintStyle: TextStyle(color: Colors.black54),
                     labelStyle: TextStyle(
                       color: Colors.indigo,
                       fontWeight: FontWeight.bold,

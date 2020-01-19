@@ -26,6 +26,7 @@ class _InicioPasswordState extends State<InicioPassword> {
           await methods.iniciarconCorreo(correo, passwordController.text);
 
       if (result['status'] == true) {
+        methods.uid=result['uid'];
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       } else {
         showDialog(

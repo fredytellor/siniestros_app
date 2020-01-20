@@ -52,11 +52,10 @@ class _PerfilHomeSiniestrosState extends State<PerfilHomeSiniestros> {
                           size: 80,
                         ),
                         Text(
-                          /*(methods.user.profile_info['nombres'] != null &&
-                                methods.user.profile_info['nombres'] != '')
-                            ? methods.user.profile_info['nombres']
-                            : */
-                          'Nombre',
+                          (methods.user.profile_info['nombres'] != null &&
+                                  methods.user.profile_info['nombres'] != '')
+                              ? methods.user.profile_info['nombres']
+                              : 'Nombre',
                           style: TextStyle(
                             color: Colors.indigo,
                             fontWeight: FontWeight.bold,
@@ -112,8 +111,7 @@ class _PerfilHomeSiniestrosState extends State<PerfilHomeSiniestros> {
                 ),
               ),
               onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(RegistroVehiculo.routeName);
+                Navigator.of(context).pushNamed(RegistroVehiculo.routeName);
               },
             ),
           ),

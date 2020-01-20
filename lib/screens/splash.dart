@@ -13,7 +13,7 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
   bool isActive;
-  //FirebaseUser userActive;
+  Methods methods;
   DocumentSnapshot docActive;
 
   void isASesionActive() async {
@@ -21,6 +21,14 @@ class _SplashState extends State<Splash> {
     if (result != null) {
       if (result.uid != null) {
         docActive = await isRegistered(result.uid);
+        if (docActive != null) {
+          methods.user.setUsuario(
+              docActive.data['profile_info'], docActive.data['ubicacion']);
+          methods.uid = docActive.documentID;
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        } else {
+          Navigator.of(context).pushReplacementNamed(Inicio.routeName);
+        }
         isActive = true;
       } else {
         isActive = false;
@@ -33,7 +41,7 @@ class _SplashState extends State<Splash> {
 
   Future<DocumentSnapshot> isRegistered(String uid) async {
     DocumentSnapshot doc =
-        await Firestore.instance.collection('usuarios').document().get();
+        await Firestore.instance.collection('usuarios').document(uid).get();
 
     if (doc != null) {
       return doc;
@@ -45,26 +53,26 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-   // FirebaseAuth.instance.signOut();
+    // FirebaseAuth.instance.signOut();
     isASesionActive();
   }
 
   @override
   void didChangeDependencies() {
-    if (isActive != null) {
+    /*if (isActive != null) {
       if (isActive == true) {
         Navigator.of(context)
-            .pushReplacementNamed(HomeScreen.routeName/*, arguments: docActive*/);
+            .pushReplacementNamed(HomeScreen.routeName);
       } else {
         Navigator.of(context).pushReplacementNamed(Inicio.routeName);
       }
-    }
+    }*/
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    Methods methods = Provider.of<Methods>(context);
+    methods = Provider.of<Methods>(context);
 
     return Container(
       child: Center(

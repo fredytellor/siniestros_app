@@ -99,7 +99,7 @@ class _InicioState extends State<Inicio> {
                         style: TextStyle(color: Theme.of(context).primaryColor),
                         decoration: InputDecoration(
                          
-                          labelText: 'correo electronico',
+                          labelText: 'Correo electrónico',
                          labelStyle: TextStyle(
                          color: Colors.indigo,
                             fontWeight: FontWeight.bold,

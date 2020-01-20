@@ -97,7 +97,7 @@ class _RegistroCorreoState extends State<RegistroCorreo> {
                         style: TextStyle(color: Theme.of(context).primaryColor),
                         decoration: InputDecoration(
                          
-                          labelText: 'correo electronico',
+                          labelText: 'Correo electrónico',
                          labelStyle: TextStyle(
                          color: Colors.indigo,
                             fontWeight: FontWeight.bold,

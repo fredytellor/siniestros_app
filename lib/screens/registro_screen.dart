@@ -81,7 +81,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                   height: 15,
                 ),
                 Text(
-                  'Ingresa la \n Informacion necesaria',
+                  'Ingresa la \n información necesaria',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
@@ -92,7 +92,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                   height: 5,
                 ),
                 Text(
-                  'Te estas registrando con el correo',
+                  'Te estás registrando con el correo:',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.black, fontSize: constraints.maxWidth / 35),
@@ -247,7 +247,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                               TextStyle(color: Theme.of(context).primaryColor),
                           decoration: InputDecoration(
                             counterText: '',
-                            labelText: 'Cedula',
+                            labelText: 'Cédula',
                             labelStyle: TextStyle(
                               color: Colors.indigo,
                               fontWeight: FontWeight.bold,
@@ -415,7 +415,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                             Expanded(
                               flex: 2,
                               child: Text(
-                                'Ocupacion:',
+                                'Ocupación:',
                                 style: TextStyle(
                                     color: Colors.indigo,
                                     fontWeight: FontWeight.bold),
@@ -433,7 +433,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                     },
                                     isExpanded: true,
                                     value: selectedOcupacion,
-                                    hint: Text('Elige tu ocupacion'),
+                                    hint: Text('Elige tu ocupación'),
                                     items: [
                                       DropdownMenuItem(
                                         child: Text(
@@ -566,7 +566,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text('Genero',style: TextStyle(color: Colors.indigo,fontWeight: FontWeight.bold),),
+                            Text('Género',style: TextStyle(color: Colors.indigo,fontWeight: FontWeight.bold),),
                             Column(
                               children: <Widget>[
                                 Switch(

@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 BottomNavigationBarItem(
                                   title: Text(
-                                    'Mios',
+                                    'Míos',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   icon: Icon(

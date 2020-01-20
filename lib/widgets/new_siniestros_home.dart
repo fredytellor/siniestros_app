@@ -83,7 +83,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
         methods.showSnackbar(
             context: context,
             duracion: 3,
-            mensaje: 'Es necesaria la ubicacion para registrar el siniestro');
+            mensaje: 'Es necesaria la ubicación para registrar el siniestro');
         return false;
       } else if (_image == null) {
         methods.showSnackbar(
@@ -241,7 +241,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 ),
                 Center(
                   child: Text(
-                    'Recuerda que la ubicacion y la foto son obligatorios',
+                    'Recuerda que la ubicación y la foto son obligatorios',
                     style: TextStyle(fontSize: 12, color: Colors.black54),
                   ),
                 ),
@@ -254,7 +254,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     Expanded(
                       flex: 2,
                       child: Text(
-                        'Ubicacion',
+                        'Ubicación',
                         style: TextStyle(
                             color: Colors.indigo, fontWeight: FontWeight.bold),
                       ),
@@ -271,7 +271,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                             child: Text(
                               (textPosition != null)
                                   ? textPosition
-                                  : 'Dar la ubicacion',
+                                  : 'Dar la ubicación',
                               style: TextStyle(
                                 color: Colors.indigo,
                                 fontWeight: FontWeight.bold,
@@ -280,7 +280,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                             ),
                           ),
                           Text(
-                            'ubicacion del dispositivo aproximada',
+                            'ubicación del dispositivo aproximada',
                             style: TextStyle(
                               fontSize: 10,
                               color: Colors.black45,
@@ -300,7 +300,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     Expanded(
                       flex: 2,
                       child: Text(
-                        'Condicion carretera:',
+                        'Condición carretera:',
                         style: TextStyle(
                             color: Colors.indigo, fontWeight: FontWeight.bold),
                       ),
@@ -317,7 +317,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                             },
                             isExpanded: true,
                             value: selectedCondicionCarretera,
-                            hint: Text('Elige la condicion'),
+                            hint: Text('Elige la condición'),
                             items: [
                               DropdownMenuItem(
                                 value: 'Con Huecos',
@@ -511,8 +511,8 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                   cursorColor: Theme.of(context).primaryColor,
                   style: TextStyle(color: Theme.of(context).primaryColor),
                   decoration: InputDecoration(
-                    labelText: 'Descripcion',
-                    hintText: '¿sabes que paso? danos detalles.',
+                    labelText: 'Descripción',
+                    hintText: '¿Sabes qué pasó? Danos detalles.',
                     hintStyle: TextStyle(color: Colors.black54),
                     labelStyle: TextStyle(
                       color: Colors.indigo,

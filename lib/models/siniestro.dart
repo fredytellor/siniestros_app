@@ -31,6 +31,6 @@ class Siniestro {
     this.causaPrimaria = causaPrimaria;
     this.factorAmbiental = factorAmbiental;
     this.foto = foto;
-    this.registradorUid=registradorUid;
+    this.registradorUid = registradorUid;
   }
 }

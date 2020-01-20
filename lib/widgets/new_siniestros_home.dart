@@ -30,6 +30,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   Widget build(BuildContext context) {
     Methods methods = Provider.of<Methods>(context);
     dia = DateFormat('EEEEE').format(DateTime.now());
+
     Future<void> _getPosition() async {
       await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)

@@ -53,7 +53,7 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    // FirebaseAuth.instance.signOut();
+    FirebaseAuth.instance.signOut();
     isASesionActive();
   }
 

@@ -46,47 +46,67 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final List<DocumentSnapshot> documents = snapshot.data.documents;
-            return Container(
-              child: ListView.builder(
-                itemCount: documents.length,
-                itemBuilder: (BuildContext context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      if (isAuthorized) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return IntervencionAccidente(
-                                documents[index],
-                              );
-                            },
+            if (documents.length > 0) {
+              return Container(
+                child: ListView.builder(
+                  itemCount: documents.length,
+                  itemBuilder: (BuildContext context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        if (isAuthorized) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return IntervencionAccidente(
+                                  documents[index],
+                                );
+                              },
+                            ),
+                          );
+                        }
+                      },
+                      child: Card(
+                        elevation: 10,
+                        child: ListTile(
+                          title: Text(
+                            documents[index]['fecha'] +
+                                ' - ' +
+                                documents[index]
+                                    .documentID
+                                    .toString()
+                                    .substring(0, 4),
                           ),
-                        );
-                      }
-                    },
-                    child: Card(
-                      elevation: 10,
-                      child: ListTile(
-                        title: Text(
-                          documents[index]['fecha'] +
-                              ' - ' +
-                              documents[index]
-                                  .documentID
-                                  .toString()
-                                  .substring(0, 4),
-                        ),
-                        leading: Text((index + 1).toString()),
-                        subtitle: Text(documents[index]['ciudad']),
-                        trailing: Icon(
-                          Icons.directions_car,
-                          color: Colors.indigo,
+                          leading: Text((index + 1).toString()),
+                          subtitle: Text(documents[index]['ciudad']),
+                          trailing: Icon(
+                            Icons.directions_car,
+                            color: Colors.indigo,
+                          ),
                         ),
                       ),
+                    );
+                  },
+                ),
+              );
+            } else {
+              return Container(
+                child: Column(
+                  children: <Widget>[
+                    Icon(
+                      Icons.sentiment_dissatisfied,
+                      color: Colors.indigo,
                     ),
-                  );
-                },
-              ),
-            );
+                    Text(
+                      'Parece que aun no has registrado ni participado enningun accidente',
+                      style: TextStyle(
+                        color: Colors.indigo,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }
           } else {
             return Container(
               width: widget.constraints.maxWidth,

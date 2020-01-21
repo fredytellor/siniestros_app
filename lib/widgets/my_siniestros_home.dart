@@ -65,6 +65,7 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
                       }
                     },
                     child: Card(
+                      elevation: 10,
                       child: ListTile(
                         title: Text(
                           documents[index]['fecha'] +

@@ -23,13 +23,13 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
     if (methods.user.profile_info['rol'] == '2') {
       querySnapshot =
           Firestore.instance.collection('siniestros').getDocuments();
-          isAuthorized=true;
+      isAuthorized = true;
     } else {
       querySnapshot = Firestore.instance
           .collection('siniestros')
           .where('registrador', isEqualTo: methods.uid)
           .getDocuments();
-          isAuthorized=false;
+      isAuthorized = false;
     }
 
     return Container(
@@ -52,13 +52,17 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
                 itemBuilder: (BuildContext context, index) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return IntervencionAccidente(
-                          documents[index],
-                          isAuthorized
+                      if (isAuthorized) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return IntervencionAccidente(
+                                documents[index],
+                              );
+                            },
+                          ),
                         );
-                      }));
+                      }
                     },
                     child: Card(
                       child: ListTile(
@@ -83,9 +87,20 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
               ),
             );
           } else {
-            return Center(
-              child: CircularProgressIndicator(
-                semanticsLabel: 'cargando siniestros',
+            return Container(
+              width: widget.constraints.maxWidth,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                  Text(
+                    'Cargando...',
+                    style: TextStyle(
+                      color: Colors.indigo,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             );
           }

@@ -65,9 +65,12 @@ class _PerfilHomeSiniestrosState extends State<PerfilHomeSiniestros> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10.0, top: 10),
+                    padding: const EdgeInsets.only(left: 20.0, top: 10),
                     child: Text(
-                      'Ocupación',
+                     (methods.user.profile_info['ocupacion'] != null &&
+                                  methods.user.profile_info['ocupacion'] != '')
+                              ? methods.user.profile_info['ocupacion']
+                              : 'Ocupación',
                       style: TextStyle(
                         color: Colors.indigo,
                         fontWeight: FontWeight.bold,

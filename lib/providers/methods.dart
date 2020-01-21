@@ -11,6 +11,7 @@ class Methods with ChangeNotifier {
   Usuario user = new Usuario();
   String uid;
   Siniestro siniestro = new Siniestro();
+  List siniestros;
 
   String get email {
     return _email;
@@ -34,7 +35,7 @@ class Methods with ChangeNotifier {
         'causaPrimaria': newSiniestro.causaPrimaria,
         'factorAmbiental': newSiniestro.factorAmbiental,
         'foto': newSiniestro.foto,
-        'registrador':newSiniestro.registradorUid,
+        'registrador': newSiniestro.registradorUid,
       };
 
       await Firestore.instance
@@ -52,6 +53,15 @@ class Methods with ChangeNotifier {
     }
   }
 
+  void getSiniestros() async {
+    var result =
+        await Firestore.instance.collection('siniestros').getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    //documents.forEach((data) => print(data.data));
+    siniestros=documents;
+siniestros.forEach((data) => print(data.data));
+  }
+
   Future<bool> updateSiniestro(
       {String siniestroId, Siniestro newSiniestro}) async {
     bool result = false;
@@ -65,7 +75,7 @@ class Methods with ChangeNotifier {
       'causaPrimaria': newSiniestro.causaPrimaria,
       'factorAmbiental': newSiniestro.factorAmbiental,
       'foto': newSiniestro.foto,
-      'registrador':newSiniestro.registradorUid,
+      'registrador': newSiniestro.registradorUid,
     };
     await Firestore.instance
         .collection('siniestros')
@@ -93,9 +103,9 @@ class Methods with ChangeNotifier {
 
   void closeDBSesion() async {
     await FirebaseAuth.instance.signOut();
-    uid=null;
-    siniestro=null;
-    user=null;
+    uid = null;
+    siniestro = null;
+    user = null;
   }
 
   Future<bool> consultarInicioEmail(String email) async {

@@ -8,7 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class Methods with ChangeNotifier {
   String _email;
-  Usuario user = new Usuario();
+  Usuario user=new Usuario();
   String uid;
   Siniestro siniestro = new Siniestro();
   List siniestros;
@@ -53,13 +53,31 @@ class Methods with ChangeNotifier {
     }
   }
 
+  void getUsuario(String uid) async {
+    var result =
+        await Firestore.instance.collection('usuarios').document(uid).get();
+
+    if (result != null) {
+      user.setUsuario(result.data['profile_info'], result.data['ubicacion']);
+      print(result.data['profile_info'].toString() +
+          ' // ' +
+          result.data['ubicacion'].toString());
+    }else{
+      print('no se pudo setear el usuario');
+    }
+
+
+
+
+  }
+
   void getSiniestros() async {
     var result =
         await Firestore.instance.collection('siniestros').getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
     //documents.forEach((data) => print(data.data));
-    siniestros=documents;
-siniestros.forEach((data) => print(data.data));
+    siniestros = documents;
+    siniestros.forEach((data) => print(data.data));
   }
 
   Future<bool> updateSiniestro(
@@ -104,9 +122,8 @@ siniestros.forEach((data) => print(data.data));
   void closeDBSesion() async {
     await FirebaseAuth.instance.signOut();
     uid = null;
-    siniestro = null;
-    user = null;
-    
+    siniestro = new Siniestro();
+    user = new Usuario();
   }
 
   Future<bool> consultarInicioEmail(String email) async {

@@ -27,6 +27,7 @@ class _InicioPasswordState extends State<InicioPassword> {
 
       if (result['status'] == true) {
         methods.uid = result['uid'];
+       await methods.getUsuario(methods.uid);
         Navigator.of(context)
             .pushReplacementNamed(HomeScreen.routeName /*,arguments: null*/);
       } else {

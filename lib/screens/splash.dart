@@ -35,6 +35,7 @@ class _SplashState extends State<Splash> {
       }
     } else {
       isActive = false;
+       Navigator.of(context).pushReplacementNamed(Inicio.routeName);
     }
     didChangeDependencies();
   }

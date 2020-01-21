@@ -106,6 +106,7 @@ siniestros.forEach((data) => print(data.data));
     uid = null;
     siniestro = null;
     user = null;
+    
   }
 
   Future<bool> consultarInicioEmail(String email) async {

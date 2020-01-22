@@ -78,9 +78,13 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
                           ),
                           leading: Text((index + 1).toString()),
                           subtitle: Text(documents[index]['ciudad']),
-                          trailing: Icon(
+                          trailing:
+                              /*Icon(
                             Icons.directions_car,
                             color: Colors.indigo,
+                          ),*/
+                              Image.network(
+                            documents[index]['foto'],
                           ),
                         ),
                       ),

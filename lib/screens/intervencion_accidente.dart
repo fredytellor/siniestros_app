@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:siniestros_app/providers/methods.dart';
+import 'package:siniestros_app/widgets/dialogs.dart';
 
 class IntervencionAccidente extends StatefulWidget {
   final DocumentSnapshot docAccidente;
@@ -17,10 +18,54 @@ class _IntervencionAccidenteState extends State<IntervencionAccidente> {
   TextEditingController controlController = new TextEditingController();
   TextEditingController costoController = new TextEditingController();
   TextEditingController descripcionController = new TextEditingController();
+  GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     Methods methods = Provider.of<Methods>(context);
+
+    void _guardarIntervencion(BuildContext context) async {
+      Map<String, dynamic> newIntervencion = {
+        'fecha': DateFormat('MM/d/y').format(DateTime.now()),
+        'control': controlController.text,
+        'descripcion': descripcionController.text,
+        'costo': costoController.text,
+        'digitador': methods.uid,
+        'fecha_seguimiento':
+            DateFormat('MM/d/y').format(DateTime.now().add(Duration(days: 60))),
+      };
+
+      var result = await methods.crearIntervencion(
+        newIntervencion,
+        widget.docAccidente.documentID,
+      );
+      String mensaje;
+      if (result) {
+        mensaje = 'La intervención del siniestro se ha guardado en la BD';
+      } else {
+        mensaje = 'Lamentablemente no pudimos registrar esta intervención.';
+      }
+
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Dialogs(
+              textTitle: (result) ? 'Listo' : 'ops',
+              buttonFunction: () {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+              textButton: 'cerrar',
+              textContent: mensaje,
+            );
+          });
+
+      setState(() {
+        costoController.text = '';
+        descripcionController.text = '';
+        controlController.text = '';
+      });
+    }
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return Scaffold(
@@ -35,11 +80,12 @@ class _IntervencionAccidenteState extends State<IntervencionAccidente> {
             ),
             height: constraints.maxHeight,
             child: Form(
+              key: _formKey,
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     Text(
-                      'Intervencion del siniestro',
+                      'Intervención del siniestro',
                       style: TextStyle(
                           color: Colors.indigo,
                           fontWeight: FontWeight.bold,
@@ -56,6 +102,18 @@ class _IntervencionAccidenteState extends State<IntervencionAccidente> {
                       height: 10,
                     ),
                     TextFormField(
+                      validator: (value) {
+                        if (value == null ||
+                            value == '' ||
+                            value.trim().length < 5) {
+                          return 'Ingresa un control válido';
+                        } else {
+                          return null;
+                        }
+                      },
+                      onSaved: (value) {
+                        controlController.text = value.trim();
+                      },
                       controller: controlController,
                       cursorColor: Theme.of(context).primaryColor,
                       style: TextStyle(color: Theme.of(context).primaryColor),
@@ -103,12 +161,25 @@ class _IntervencionAccidenteState extends State<IntervencionAccidente> {
                       height: 10,
                     ),
                     TextFormField(
+                      keyboardType: TextInputType.number,
                       controller: costoController,
                       cursorColor: Theme.of(context).primaryColor,
                       style: TextStyle(color: Theme.of(context).primaryColor),
+                      validator: (value) {
+                        if (value == null ||
+                            value == '' ||
+                            value.trim().length < 6) {
+                          return 'Ingresa un costo válido';
+                        } else {
+                          return null;
+                        }
+                      },
+                      onSaved: (value) {
+                        costoController.text = value.trim();
+                      },
                       decoration: InputDecoration(
                         labelText: 'Costo',
-                        hintText: '¿Cuanto costara esto?',
+                        hintText: '¿Cuánto costará esto?',
                         hintStyle: TextStyle(color: Colors.black54),
                         labelStyle: TextStyle(
                           color: Colors.indigo,
@@ -153,9 +224,21 @@ class _IntervencionAccidenteState extends State<IntervencionAccidente> {
                       controller: descripcionController,
                       cursorColor: Theme.of(context).primaryColor,
                       style: TextStyle(color: Theme.of(context).primaryColor),
+                      validator: (value) {
+                        if (value == null ||
+                            value == '' ||
+                            value.trim().length < 6) {
+                          return 'Ingresa una descripción válida';
+                        } else {
+                          return null;
+                        }
+                      },
+                      onSaved: (value) {
+                        descripcionController.text = value.trim();
+                      },
                       decoration: InputDecoration(
-                        labelText: 'Descripcion',
-                        hintText: '',
+                        labelText: 'Descripción',
+                        hintText: 'Danos detalles sobre la intervención.',
                         hintStyle: TextStyle(color: Colors.black54),
                         labelStyle: TextStyle(
                           color: Colors.indigo,
@@ -215,20 +298,16 @@ class _IntervencionAccidenteState extends State<IntervencionAccidente> {
                                   showDialog(
                                       context: context,
                                       builder: (context) {
-                                        return AlertDialog(
-                                          title: Text('Calma...'),
-                                          content: Text(
-                                              'Aun no puedes dar seguimiento a esta intervencion.'),
-                                          actions: <Widget>[
-                                            FlatButton(
-                                              child: Text('cerrar'),
-                                              onPressed: () {
-                                                Navigator.of(context,
-                                                        rootNavigator: true)
-                                                    .pop();
-                                              },
-                                            ),
-                                          ],
+                                        return Dialogs(
+                                          textTitle: 'Calma...',
+                                          textContent:
+                                              'Aún no puedes dar seguimiento a esta intervención.',
+                                          buttonFunction: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop();
+                                          },
+                                          textButton: 'cerrar',
                                         );
                                       });
                                 },
@@ -267,7 +346,10 @@ class _IntervencionAccidenteState extends State<IntervencionAccidente> {
                         ),
                       ),
                       onPressed: () {
-                      print('registrando intervencion');
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          _guardarIntervencion(context);
+                        }
                       },
                     )
                   ],

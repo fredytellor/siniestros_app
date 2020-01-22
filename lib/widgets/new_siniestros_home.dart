@@ -136,6 +136,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 duracion: 3,
                 mensaje: 'Siniestro ' + siniestroID + ' registrado.',
                 context: context);
+                
           } else {
             Scaffold.of(context).hideCurrentSnackBar();
             methods.showSnackbar(

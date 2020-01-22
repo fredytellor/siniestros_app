@@ -8,7 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class Methods with ChangeNotifier {
   String _email;
-  Usuario user=new Usuario();
+  Usuario user = new Usuario();
   String uid;
   Siniestro siniestro = new Siniestro();
   List siniestros;
@@ -62,13 +62,9 @@ class Methods with ChangeNotifier {
       print(result.data['profile_info'].toString() +
           ' // ' +
           result.data['ubicacion'].toString());
-    }else{
+    } else {
       print('no se pudo setear el usuario');
     }
-
-
-
-
   }
 
   void getSiniestros() async {
@@ -198,6 +194,25 @@ class Methods with ChangeNotifier {
           .collection('usuarios')
           .document(uid)
           .setData(newUser)
+          .then((_) {
+        result = true;
+      });
+      return result;
+    } catch (error) {
+      print(error);
+      return result;
+    }
+  }
+
+  Future<bool> crearIntervencion(
+      Map<String, dynamic> newIntervencion, String idSiniestro) async {
+    var result = false;
+    try {
+     await Firestore.instance
+          .collection('siniestros')
+          .document(idSiniestro)
+          .collection('intervenciones')
+          .add(newIntervencion)
           .then((_) {
         result = true;
       });

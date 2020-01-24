@@ -102,14 +102,16 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
               );
             } else {
               return Container(
+                width: widget.constraints.maxWidth,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
                       Icons.sentiment_dissatisfied,
                       color: Colors.indigo,
                     ),
                     Text(
-                      'Parece que aun no has registrado ni participado enningun accidente',
+                      'Parece que aun no has registrado ni\nparticipado en ningun accidente',
                       style: TextStyle(
                         color: Colors.indigo,
                         fontWeight: FontWeight.bold,

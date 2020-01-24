@@ -83,9 +83,17 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
                             Icons.directions_car,
                             color: Colors.indigo,
                           ),*/
-                              Image.network(
-                            documents[index]['foto'],
+                              Container(height: 40,
+                              width: 40,
+                                child: FadeInImage(
+                            image: NetworkImage(
+                                documents[index]['foto'],
+                            ),
+                            placeholder:
+                                  AssetImage('assets/images/accidente.png'),
+                            fit: BoxFit.cover,
                           ),
+                              ),
                         ),
                       ),
                     );

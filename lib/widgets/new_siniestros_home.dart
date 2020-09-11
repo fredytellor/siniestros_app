@@ -18,6 +18,7 @@ class NewSiniestrosHome extends StatefulWidget {
 class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   String selectedCondicionCarretera;
   File _image;
+  File _croquis;
   String selectedFactorAmbiental;
   String selectedCausaPrimaria;
   Position devicePosition;
@@ -30,6 +31,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   Widget build(BuildContext context) {
     Methods methods = Provider.of<Methods>(context);
     dia = DateFormat('EEEEE').format(DateTime.now());
+    Size mediaQuerySize = MediaQuery.of(context).size;
 
     Future<void> _getPosition() async {
       await Geolocator()
@@ -53,6 +55,49 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
             context: context,
             duracion: 2,
             mensaje: 'No has elegido una foto nueva');
+      }
+    }
+
+    Future<void> _getCroquis() async {
+      try {
+        var croquis = await ImagePicker.pickImage(source: ImageSource.gallery);
+        if (croquis != null) {
+          setState(() {
+            _croquis = croquis;
+          });
+          methods.showFlushBar(
+            context: context,
+            duration: 3,
+            title: 'Listo',
+            message: 'Croquis cargado correctamente.',
+            icon: Icon(
+              Icons.check_circle,
+              color: Colors.white,
+            ),
+          );
+        } else {
+          methods.showFlushBar(
+            context: context,
+            duration: 3,
+            title: 'Ops',
+            message: 'Parece que no has elegido un archivo.',
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+          );
+        }
+      } catch (error) {
+        methods.showFlushBar(
+          context: context,
+          duration: 3,
+          title: 'Ops',
+          message: error.toString(),
+          icon: Icon(
+            Icons.close,
+            color: Colors.white,
+          ),
+        );
       }
     }
 
@@ -336,15 +381,18 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                           },
                           isExpanded: true,
                           value: selectedFactorAmbiental,
-                          hint: Text('Elige el factor'),
+                          hint: Text(
+                            'Elige el factor',
+                          ),
                           items: [
                             DropdownMenuItem(
                               value: 'Nublado',
                               child: Text(
                                 'Nublado',
                                 style: TextStyle(
-                                    color: Colors.indigo,
-                                    fontWeight: FontWeight.bold),
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               key: Key('Nublado'),
                             ),
@@ -433,27 +481,60 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: mediaQuerySize.height * 0.02,
               ),
-              GestureDetector(
-                onTap: () {
-                  _getImage();
-                },
-                child: Column(
-                  children: <Widget>[
-                    Icon(
-                      (_image != null) ? Icons.check_circle : Icons.add_a_photo,
-                      color: Colors.indigo,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _getImage();
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          (_image != null)
+                              ? Icons.check_circle
+                              : Icons.add_a_photo,
+                          color: Colors.indigo,
+                        ),
+                        Text(
+                          (_image != null)
+                              ? 'Tomar otra foto'
+                              : 'Toma una foto',
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      (_image != null) ? 'Tomar otra foto' : 'Toma una foto',
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 12,
-                      ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _getCroquis();
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          (_croquis != null)
+                              ? Icons.cloud_upload
+                              : Icons.file_upload,
+                          color: Colors.indigo,
+                        ),
+                        Text(
+                          (_croquis != null)
+                              ? 'Cargar otro croquis'
+                              : 'Subir croquis',
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 20,

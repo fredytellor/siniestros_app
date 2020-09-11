@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:siniestros_app/models/siniestro.dart';
 import 'package:siniestros_app/models/usuario.dart';
@@ -50,6 +51,51 @@ class Methods with ChangeNotifier {
     } catch (error) {
       print(error);
       return null;
+    }
+  }
+
+  showFlushBar({
+    BuildContext context,
+    String title,
+    String message,
+    Icon icon,
+    bool blockBackground = false,
+    bool blurSnack = false,
+    int duration,
+    bool button = false,
+    String buttonText = 'Activar',
+    Function buttonFunction,
+    FlushbarPosition position = FlushbarPosition.BOTTOM,
+  }) {
+    try {
+      Flushbar(
+        backgroundColor:
+            blurSnack ? Colors.blue.withOpacity(0.95) : Colors.blue,
+        title: title,
+        message: message,
+        icon: icon,
+        barBlur: blurSnack ? 2 : 0.0,
+        routeBlur: blockBackground ? 2 : 0.0,
+        blockBackgroundInteraction: blockBackground,
+        mainButton: button
+            ? FlatButton(
+                onPressed: buttonFunction,
+                child: Text(
+                  buttonText,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            : Center(),
+        duration: Duration(
+          seconds: duration != null ? duration : 3,
+        ),
+        flushbarPosition: position,
+      )..show(context);
+    } catch (error) {
+      print('show flushbar error: ' + error.toString());
     }
   }
 
@@ -105,13 +151,28 @@ class Methods with ChangeNotifier {
   Future<String> cargarFoto({File imagen, String idSiniestro}) async {
     String url;
     StorageReference storageReference =
-        FirebaseStorage().ref().child('/sinestros_fotos/${idSiniestro}');
+        FirebaseStorage().ref().child('/sinestros_fotos/$idSiniestro');
     StorageUploadTask upload =
         storageReference.putData(imagen.readAsBytesSync());
 
     url = await (await upload.onComplete).ref.getDownloadURL();
 
     print('Foto del siniestro cargada al storage y url obtenida');
+    return url;
+  }
+
+  Future<String> cargarCroquis({File croquis, String idSiniestro}) async {
+    String url;
+    StorageReference storageReference =
+        FirebaseStorage().ref().child('/sinestros_croquis/$idSiniestro');
+    StorageUploadTask upload =
+        storageReference.putData(croquis.readAsBytesSync());
+
+    url = await (await upload.onComplete).ref.getDownloadURL();
+
+    print(
+      'Foto del siniestro cargada al storage y url obtenida',
+    );
     return url;
   }
 
@@ -208,7 +269,7 @@ class Methods with ChangeNotifier {
       Map<String, dynamic> newIntervencion, String idSiniestro) async {
     var result = false;
     try {
-     await Firestore.instance
+      await Firestore.instance
           .collection('siniestros')
           .document(idSiniestro)
           .collection('intervenciones')
@@ -221,5 +282,13 @@ class Methods with ChangeNotifier {
       print(error);
       return result;
     }
+  }
+
+  loadRegisterData() async {
+    Firestore.instance.collection('public').document('info').snapshots().listen(
+      (doc) {
+        print(doc);
+      },
+    );
   }
 } //fin methods

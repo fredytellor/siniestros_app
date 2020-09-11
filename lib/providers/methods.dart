@@ -13,6 +13,8 @@ class Methods with ChangeNotifier {
   String uid;
   Siniestro siniestro = new Siniestro();
   List siniestros;
+  List causas = [];
+  List bienes = [];
 
   String get email {
     return _email;
@@ -70,7 +72,7 @@ class Methods with ChangeNotifier {
     try {
       Flushbar(
         backgroundColor:
-            blurSnack ? Colors.blue.withOpacity(0.95) : Colors.blue,
+            blurSnack ? Colors.indigo.withOpacity(0.95) : Colors.indigo,
         title: title,
         message: message,
         icon: icon,
@@ -285,10 +287,10 @@ class Methods with ChangeNotifier {
   }
 
   loadRegisterData() async {
-    Firestore.instance.collection('public').document('info').snapshots().listen(
-      (doc) {
-        print(doc);
-      },
-    );
+    var infoDoc =
+        await Firestore.instance.collection('public').document('info').get();
+    print(infoDoc.data);
+    bienes = infoDoc.data['bienes'];
+    causas = infoDoc.data['causas'];
   }
 } //fin methods

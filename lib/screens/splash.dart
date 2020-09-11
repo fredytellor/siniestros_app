@@ -17,6 +17,7 @@ class _SplashState extends State<Splash> {
   DocumentSnapshot docActive;
 
   void isASesionActive() async {
+    await methods.loadRegisterData();
     var result = await FirebaseAuth.instance.currentUser();
     if (result != null) {
       if (result.uid != null) {
@@ -27,6 +28,7 @@ class _SplashState extends State<Splash> {
           methods.uid = docActive.documentID;
           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
         } else {
+          FirebaseAuth.instance.signOut();
           Navigator.of(context).pushReplacementNamed(Inicio.routeName);
         }
         isActive = true;
@@ -35,15 +37,13 @@ class _SplashState extends State<Splash> {
       }
     } else {
       isActive = false;
-       Navigator.of(context).pushReplacementNamed(Inicio.routeName);
+      Navigator.of(context).pushReplacementNamed(Inicio.routeName);
     }
-    didChangeDependencies();
   }
 
   Future<DocumentSnapshot> isRegistered(String uid) async {
     DocumentSnapshot doc =
         await Firestore.instance.collection('usuarios').document(uid).get();
-
     if (doc != null) {
       return doc;
     } else {
@@ -52,22 +52,11 @@ class _SplashState extends State<Splash> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  //  FirebaseAuth.instance.signOut();
-    isASesionActive();
-  }
-
-  @override
   void didChangeDependencies() {
-    /*if (isActive != null) {
-      if (isActive == true) {
-        Navigator.of(context)
-            .pushReplacementNamed(HomeScreen.routeName);
-      } else {
-        Navigator.of(context).pushReplacementNamed(Inicio.routeName);
-      }
-    }*/
+    if (methods == null) {
+      methods = Provider.of<Methods>(context);
+    }
+    isASesionActive();
     super.didChangeDependencies();
   }
 
@@ -77,7 +66,12 @@ class _SplashState extends State<Splash> {
 
     return Container(
       child: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.white,
+          valueColor: AlwaysStoppedAnimation<Color>(
+            Colors.indigo,
+          ),
+        ),
       ),
     );
   }

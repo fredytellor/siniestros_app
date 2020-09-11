@@ -21,6 +21,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   File _croquis;
   String selectedFactorAmbiental;
   String selectedCausaPrimaria;
+  String selectedRegistro;
   Position devicePosition;
   TextEditingController descripcionController = TextEditingController();
   String textPosition;
@@ -308,6 +309,72 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                   Expanded(
                     flex: 2,
                     child: Text(
+                      'Tipo de\nregistro:',
+                      style: TextStyle(
+                          color: Colors.indigo, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: FormField(
+                      builder: (child) {
+                        return DropdownButton<String>(
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedRegistro = newValue;
+                            });
+                          },
+                          isExpanded: true,
+                          value: selectedRegistro,
+                          hint: Text('Elige el registro'),
+                          items: [
+                            DropdownMenuItem(
+                              value: 'Incidente',
+                              child: Text(
+                                'Incidente',
+                                style: TextStyle(
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              key: Key('Incidente'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Infraccion',
+                              child: Text(
+                                'Infracción',
+                                style: TextStyle(
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              key: Key('Infraccion'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Accidente',
+                              child: Text(
+                                'Accidente',
+                                style: TextStyle(
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              key: Key('Accidente'),
+                            ),
+                          ],
+                          iconEnabledColor: Colors.indigo,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: Text(
                       'Condición carretera:',
                       style: TextStyle(
                           color: Colors.indigo, fontWeight: FontWeight.bold),
@@ -473,6 +540,41 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                               key: Key('Paso el semaforo rojo'),
                             ),
                           ],
+                          iconEnabledColor: Colors.indigo,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'Tipo de bien afectado:',
+                      style: TextStyle(
+                          color: Colors.indigo, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: FormField(
+                      builder: (child) {
+                        return DropdownButton<String>(
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedCausaPrimaria = newValue;
+                            });
+                          },
+                          isExpanded: true,
+                          value: selectedCausaPrimaria,
+                          hint: Text('Elige tipo de bien'),
+                          items: [],
                           iconEnabledColor: Colors.indigo,
                         );
                       },

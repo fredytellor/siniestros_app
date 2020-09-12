@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,6 +22,8 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   File _croquis;
   String selectedFactorAmbiental;
   String selectedCausaPrimaria;
+  String selectedClaseBien;
+  String selectedTipoBien;
   String selectedRegistro;
   Position devicePosition;
   TextEditingController descripcionController = TextEditingController();
@@ -502,7 +505,9 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     child: Text(
                       'Causa\nPrimaria:',
                       style: TextStyle(
-                          color: Colors.indigo, fontWeight: FontWeight.bold),
+                        color: Colors.indigo,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -518,28 +523,18 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                           isExpanded: true,
                           value: selectedCausaPrimaria,
                           hint: Text('Elige una causa'),
-                          items: [
-                            DropdownMenuItem(
-                              value: 'No hizo el pare',
-                              child: Text(
-                                'No hizo el pare',
+                          items: methods.causas.map((causa) {
+                            return new DropdownMenuItem<String>(
+                              child: new Text(
+                                causa,
                                 style: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                     color: Colors.indigo,
-                                    fontWeight: FontWeight.bold),
+                                    fontSize: mediaQuerySize.width * 0.05),
                               ),
-                              key: Key('No hizo el pare'),
-                            ),
-                            DropdownMenuItem(
-                              value: 'Paso el semaforo rojo',
-                              child: Text(
-                                'Paso el semaforo rojo',
-                                style: TextStyle(
-                                    color: Colors.indigo,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              key: Key('Paso el semaforo rojo'),
-                            ),
-                          ],
+                              value: causa,
+                            );
+                          }).toList(),
                           iconEnabledColor: Colors.indigo,
                         );
                       },
@@ -568,16 +563,126 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                         return DropdownButton<String>(
                           onChanged: (newValue) {
                             setState(() {
-                              selectedCausaPrimaria = newValue;
+                              selectedTipoBien = newValue;
                             });
                           },
                           isExpanded: true,
-                          value: selectedCausaPrimaria,
+                          value: selectedTipoBien,
                           hint: Text('Elige tipo de bien'),
-                          items: [],
+                          items: methods.bienes.map((bien) {
+                            return new DropdownMenuItem<String>(
+                              child: new Text(
+                                bien,
+                                style: TextStyle(
+                                  fontSize: mediaQuerySize.width * 0.05,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.indigo,
+                                ),
+                              ),
+                              value: bien,
+                            );
+                          }).toList(),
                           iconEnabledColor: Colors.indigo,
                         );
                       },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'Clase de bien afectado:',
+                      style: TextStyle(
+                          color: Colors.indigo, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: FormField(
+                      builder: (child) {
+                        return DropdownButton<String>(
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedClaseBien = newValue;
+                            });
+                          },
+                          isExpanded: true,
+                          value: selectedClaseBien,
+                          hint: Text('Clase del bien'),
+                          items: [
+                            DropdownMenuItem(
+                              child: new Text(
+                                'Publico',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.indigo,
+                                ),
+                              ),
+                              value: 'Publico',
+                            ),
+                            DropdownMenuItem(
+                              child: Text(
+                                'Privado',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.indigo,
+                                ),
+                              ),
+                              value: 'Privado',
+                            ),
+                          ],
+                          iconEnabledColor: Colors.indigo,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'Valor del bien afectado:',
+                      style: TextStyle(
+                        color: Colors.indigo,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: TextFormField(
+                      style: TextStyle(
+                        color: Colors.indigo,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLength: 9,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: 'Monto aproximado \u0024',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        border: InputBorder.none,
+                        counterText: '',
+                      ),
+                      inputFormatters: [
+                        //FilteringTextInputFormatter.digitsOnly
+                        WhitelistingTextInputFormatter.digitsOnly
+                      ],
                     ),
                   ),
                 ],

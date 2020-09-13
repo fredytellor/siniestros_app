@@ -30,6 +30,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   String textPosition;
   String dia;
   String ciudad;
+  int numberPeople = 1;
   List<Placemark> placemark;
   @override
   Widget build(BuildContext context) {
@@ -742,6 +743,234 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                color: Colors.amber.withOpacity(0.1),
+                child: Row(
+                  children: [
+                    Flexible(
+                      flex: 3,
+                      fit: FlexFit.tight,
+                      child: Text(
+                        'Número de afectados:',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 7,
+                      fit: FlexFit.tight,
+                      child: Container(
+                        height: mediaQuerySize.height * 0.15,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  numberPeople++;
+                                });
+                              },
+                              child: Icon(
+                                Icons.arrow_drop_up,
+                                color: Colors.indigo,
+                              ),
+                            ),
+                            Text(
+                              numberPeople.toString(),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                if (numberPeople > 1) {
+                                  setState(() {
+                                    numberPeople--;
+                                  });
+                                } else {
+                                  methods.showFlushBar(
+                                    context: context,
+                                    title: 'Ops',
+                                    message:
+                                        'No puede haber menos de 1 afectado.',
+                                    icon: Icon(
+                                      Icons.info_outline,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Icon(
+                                Icons.arrow_drop_down,
+                                color: Colors.indigo,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: mediaQuerySize.width * 0.025),
+                padding: EdgeInsets.all(
+                  mediaQuerySize.width * 0.05,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 5,
+                      color: Colors.black12,
+                      offset: Offset(0, 0),
+                      spreadRadius: 1,
+                    )
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            'Género',
+                            style: TextStyle(
+                                color: Colors.indigo,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: FormField(
+                            builder: (child) {
+                              return DropdownButton<String>(
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    selectedClaseBien = newValue;
+                                  });
+                                },
+                                isExpanded: true,
+                                value: selectedClaseBien,
+                                hint: Text('Género del afectado'),
+                                items: [
+                                  DropdownMenuItem(
+                                    child: new Text(
+                                      'Masculino',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.indigo,
+                                      ),
+                                    ),
+                                    value: 'Masculino',
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      'Femenino',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.indigo,
+                                      ),
+                                    ),
+                                    value: 'Femenino',
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      'Otro',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.indigo,
+                                      ),
+                                    ),
+                                    value: 'Otro',
+                                  ),
+                                ],
+                                iconEnabledColor: Colors.indigo,
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            'Estado:',
+                            style: TextStyle(
+                                color: Colors.indigo,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: FormField(
+                            builder: (child) {
+                              return DropdownButton<String>(
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    selectedClaseBien = newValue;
+                                  });
+                                },
+                                isExpanded: true,
+                                value: selectedClaseBien,
+                                hint: Text('Estado del afectado'),
+                                items: [
+                                  DropdownMenuItem(
+                                    child: new Text(
+                                      'Masculino',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.indigo,
+                                      ),
+                                    ),
+                                    value: 'Masculino',
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      'Femenino',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.indigo,
+                                      ),
+                                    ),
+                                    value: 'Femenino',
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      'Otro',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.indigo,
+                                      ),
+                                    ),
+                                    value: 'Otro',
+                                  ),
+                                ],
+                                iconEnabledColor: Colors.indigo,
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 20,

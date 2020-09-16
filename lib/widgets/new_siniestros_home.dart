@@ -27,6 +27,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   String selectedRegistro;
   Position devicePosition;
   TextEditingController descripcionController = TextEditingController();
+  TextEditingController textAddressController = TextEditingController();
   String textPosition;
   String dia;
   String ciudad;
@@ -123,7 +124,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
       if (devicePosition != null) {
         await _getAddress(devicePosition.latitude, devicePosition.longitude);
         setState(() {
-          textPosition;
+          textAddressController.text = textPosition;
         });
       }
     }
@@ -215,14 +216,16 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
     }
 
     return Container(
+      margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom * 10),
       decoration: BoxDecoration(color: Colors.white),
       height: widget.constraints.maxHeight * 0.9,
       padding: EdgeInsets.only(
-        top: widget.constraints.maxHeight * 0.1,
-        left: 20,
-        right: 20,
-        bottom: 20,
-      ),
+          top: widget.constraints.maxHeight * 0.1,
+          left: 20,
+          right: 20,
+          bottom: 20 //+ MediaQuery.of(context).viewInsets.bottom * 10,
+          ),
       child: Form(
         child: SingleChildScrollView(
           child: Column(
@@ -273,15 +276,54 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     ),
                   ),
                   Expanded(
-                    flex: 4,
+                    flex: 6,
                     child: Column(
                       children: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            //_showMMapDialog();
-                            getPositionText();
-                          },
-                          child: Text(
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 6,
+                              fit: FlexFit.tight,
+                              child: TextFormField(
+                                textAlign: TextAlign.center,
+                                controller: textAddressController,
+                                maxLines: 2,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  hintText: 'Dirección aproximada',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                  ),
+                                  border: InputBorder.none,
+                                  counterText: '',
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 3,
+                              fit: FlexFit.tight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  //_showMMapDialog();
+                                  getPositionText();
+                                },
+                                child: Icon(
+                                  Icons.pin_drop,
+                                  color: Colors.indigo,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        /* Text(
                             (textPosition != null)
                                 ? textPosition
                                 : 'Dar la ubicación',
@@ -290,8 +332,8 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.right,
-                          ),
-                        ),
+                          ),*/
+
                         Text(
                           'ubicación del dispositivo aproximada',
                           style: TextStyle(
@@ -324,9 +366,17 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                       builder: (child) {
                         return DropdownButton<String>(
                           onChanged: (newValue) {
-                            setState(() {
-                              selectedRegistro = newValue;
-                            });
+                            if (newValue == 'Accidente') {
+                              setState(() {
+                                selectedRegistro = newValue;
+                                numberPeople = 2;
+                              });
+                            } else {
+                              setState(() {
+                                selectedRegistro = newValue;
+                                numberPeople = 1;
+                              });
+                            }
                           },
                           isExpanded: true,
                           value: selectedRegistro,
@@ -748,7 +798,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 height: 20,
               ),
               Container(
-                color: Colors.amber.withOpacity(0.1),
+                //  color: Colors.amber.withOpacity(0.1),
                 child: Row(
                   children: [
                     Flexible(
@@ -786,7 +836,24 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                if (numberPeople > 1) {
+                                if (selectedRegistro == 'Accidente') {
+                                  if (numberPeople > 2) {
+                                    setState(() {
+                                      numberPeople--;
+                                    });
+                                  } else {
+                                    methods.showFlushBar(
+                                      context: context,
+                                      title: 'Ops',
+                                      message:
+                                          'En un accidente hay minimo 2 afectados.',
+                                      icon: Icon(
+                                        Icons.info_outline,
+                                        color: Colors.white,
+                                      ),
+                                    );
+                                  }
+                                } else if (numberPeople > 1) {
                                   setState(() {
                                     numberPeople--;
                                   });
@@ -844,7 +911,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            'Género',
+                            'Género:',
                             style: TextStyle(
                                 color: Colors.indigo,
                                 fontWeight: FontWeight.bold),
@@ -933,38 +1000,159 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                                 items: [
                                   DropdownMenuItem(
                                     child: new Text(
-                                      'Masculino',
+                                      'Herido',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.indigo,
                                       ),
                                     ),
-                                    value: 'Masculino',
+                                    value: 'Herido',
                                   ),
                                   DropdownMenuItem(
                                     child: Text(
-                                      'Femenino',
+                                      'Muerto',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.indigo,
                                       ),
                                     ),
-                                    value: 'Femenino',
+                                    value: 'Muerto',
                                   ),
                                   DropdownMenuItem(
                                     child: Text(
-                                      'Otro',
+                                      'Lesionado',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.indigo,
                                       ),
                                     ),
-                                    value: 'Otro',
+                                    value: 'Lesionado',
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      'Ileso',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.indigo,
+                                      ),
+                                    ),
+                                    value: 'Ileso',
                                   ),
                                 ],
                                 iconEnabledColor: Colors.indigo,
                               );
                             },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            'Nombre:',
+                            style: TextStyle(
+                                color: Colors.indigo,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: TextField(
+                            style: TextStyle(
+                              color: Colors.indigo,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLength: 9,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: 'Nombre afectado',
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              border: InputBorder.none,
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            'Placa:',
+                            style: TextStyle(
+                                color: Colors.indigo,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: TextField(
+                            style: TextStyle(
+                              color: Colors.indigo,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLength: 9,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: 'Placa del vehiculo',
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              border: InputBorder.none,
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            'Cedula titular:',
+                            style: TextStyle(
+                                color: Colors.indigo,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: TextField(
+                            style: TextStyle(
+                              color: Colors.indigo,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLength: 9,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: 'C.C titular vehiculo',
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              border: InputBorder.none,
+                              counterText: '',
+                            ),
                           ),
                         ),
                       ],
@@ -981,7 +1169,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 keyboardType: TextInputType.text,
                 validator: (value) {
                   if (value == null || value.trim().length < 3) {
-                    return 'Ingresa un apellido valido';
+                    return 'Ingresa una descripción válida';
                   } else {
                     return null;
                   }
@@ -1026,6 +1214,103 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                       color: Theme.of(context).primaryColor,
                     ),
                   ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    20,
+                  ),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 5,
+                      color: Colors.black12,
+                      offset: Offset(0, 0),
+                      spreadRadius: 1,
+                    )
+                  ],
+                ),
+                padding: EdgeInsets.symmetric(
+                  vertical: 20,
+                ),
+                child: Column(
+                  children: [
+                    Text('Acciones tomadas'),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: true,
+                          onChanged: (newValue) {},
+                        ),
+                        Text(
+                          'Reporte aseguradora',
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: true,
+                          onChanged: (newValue) {},
+                        ),
+                        Text(
+                          'Atención victimas',
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: true,
+                          onChanged: (newValue) {},
+                        ),
+                        Text(
+                          'Multa',
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: true,
+                          onChanged: (newValue) {},
+                        ),
+                        Text(
+                          'Otra',
+                        )
+                      ],
+                    ),
+                    (true)
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: TextFormField(
+                              style: TextStyle(
+                                color: Colors.indigo,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLength: 9,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: '¿Cuál?',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                border: InputBorder.none,
+                                counterText: '',
+                              ),
+                            ),
+                          )
+                        : SizedBox()
+                  ],
                 ),
               ),
               SizedBox(

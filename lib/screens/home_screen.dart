@@ -29,9 +29,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ];
         return SingleChildScrollView(
           child: Container(
+            /*padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom * 2,
+            ),
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom * 5,
+            ),*/
             height: constraints.maxHeight,
             child: Scaffold(
-              // resizeToAvoidBottomInset: false,
+              resizeToAvoidBottomPadding: false,
+              resizeToAvoidBottomInset: false,
               body: Container(
                 child: SingleChildScrollView(
                   child: Column(

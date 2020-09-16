@@ -216,16 +216,14 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
     }
 
     return Container(
-      margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom * 10),
       decoration: BoxDecoration(color: Colors.white),
       height: widget.constraints.maxHeight * 0.9,
       padding: EdgeInsets.only(
-          top: widget.constraints.maxHeight * 0.1,
-          left: 20,
-          right: 20,
-          bottom: 20 //+ MediaQuery.of(context).viewInsets.bottom * 10,
-          ),
+        top: widget.constraints.maxHeight * 0.1,
+        left: 20,
+        right: 20,
+        bottom: 65 + MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: Form(
         child: SingleChildScrollView(
           child: Column(
@@ -885,280 +883,289 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                margin: EdgeInsets.symmetric(
-                    horizontal: mediaQuerySize.width * 0.025),
-                padding: EdgeInsets.all(
-                  mediaQuerySize.width * 0.05,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 5,
-                      color: Colors.black12,
-                      offset: Offset(0, 0),
-                      spreadRadius: 1,
-                    )
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            'Género:',
-                            style: TextStyle(
-                                color: Colors.indigo,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: FormField(
-                            builder: (child) {
-                              return DropdownButton<String>(
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    selectedClaseBien = newValue;
-                                  });
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: numberPeople,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: mediaQuerySize.width * 0.025,
+                        vertical: mediaQuerySize.height * 0.025),
+                    padding: EdgeInsets.all(
+                      mediaQuerySize.width * 0.05,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 5,
+                          color: Colors.black12,
+                          offset: Offset(0, 0),
+                          spreadRadius: 1,
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Text('Afectado #' + (index + 1).toString()),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                'Género:',
+                                style: TextStyle(
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: FormField(
+                                builder: (child) {
+                                  return DropdownButton<String>(
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        selectedClaseBien = newValue;
+                                      });
+                                    },
+                                    isExpanded: true,
+                                    value: selectedClaseBien,
+                                    hint: Text('Género del afectado'),
+                                    items: [
+                                      DropdownMenuItem(
+                                        child: new Text(
+                                          'Masculino',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.indigo,
+                                          ),
+                                        ),
+                                        value: 'Masculino',
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Femenino',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.indigo,
+                                          ),
+                                        ),
+                                        value: 'Femenino',
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Otro',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.indigo,
+                                          ),
+                                        ),
+                                        value: 'Otro',
+                                      ),
+                                    ],
+                                    iconEnabledColor: Colors.indigo,
+                                  );
                                 },
-                                isExpanded: true,
-                                value: selectedClaseBien,
-                                hint: Text('Género del afectado'),
-                                items: [
-                                  DropdownMenuItem(
-                                    child: new Text(
-                                      'Masculino',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.indigo,
-                                      ),
-                                    ),
-                                    value: 'Masculino',
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text(
-                                      'Femenino',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.indigo,
-                                      ),
-                                    ),
-                                    value: 'Femenino',
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text(
-                                      'Otro',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.indigo,
-                                      ),
-                                    ),
-                                    value: 'Otro',
-                                  ),
-                                ],
-                                iconEnabledColor: Colors.indigo,
-                              );
-                            },
-                          ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            'Estado:',
-                            style: TextStyle(
-                                color: Colors.indigo,
-                                fontWeight: FontWeight.bold),
-                          ),
+                        SizedBox(
+                          height: 10,
                         ),
-                        Expanded(
-                          flex: 4,
-                          child: FormField(
-                            builder: (child) {
-                              return DropdownButton<String>(
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    selectedClaseBien = newValue;
-                                  });
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                'Estado:',
+                                style: TextStyle(
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: FormField(
+                                builder: (child) {
+                                  return DropdownButton<String>(
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        selectedClaseBien = newValue;
+                                      });
+                                    },
+                                    isExpanded: true,
+                                    value: selectedClaseBien,
+                                    hint: Text('Estado del afectado'),
+                                    items: [
+                                      DropdownMenuItem(
+                                        child: new Text(
+                                          'Herido',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.indigo,
+                                          ),
+                                        ),
+                                        value: 'Herido',
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Muerto',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.indigo,
+                                          ),
+                                        ),
+                                        value: 'Muerto',
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Lesionado',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.indigo,
+                                          ),
+                                        ),
+                                        value: 'Lesionado',
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'Ileso',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.indigo,
+                                          ),
+                                        ),
+                                        value: 'Ileso',
+                                      ),
+                                    ],
+                                    iconEnabledColor: Colors.indigo,
+                                  );
                                 },
-                                isExpanded: true,
-                                value: selectedClaseBien,
-                                hint: Text('Estado del afectado'),
-                                items: [
-                                  DropdownMenuItem(
-                                    child: new Text(
-                                      'Herido',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.indigo,
-                                      ),
-                                    ),
-                                    value: 'Herido',
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text(
-                                      'Muerto',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.indigo,
-                                      ),
-                                    ),
-                                    value: 'Muerto',
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text(
-                                      'Lesionado',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.indigo,
-                                      ),
-                                    ),
-                                    value: 'Lesionado',
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text(
-                                      'Ileso',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.indigo,
-                                      ),
-                                    ),
-                                    value: 'Ileso',
-                                  ),
-                                ],
-                                iconEnabledColor: Colors.indigo,
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            'Nombre:',
-                            style: TextStyle(
-                                color: Colors.indigo,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: TextField(
-                            style: TextStyle(
-                              color: Colors.indigo,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLength: 9,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              hintText: 'Nombre afectado',
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.normal,
                               ),
-                              border: InputBorder.none,
-                              counterText: '',
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            'Placa:',
-                            style: TextStyle(
-                                color: Colors.indigo,
-                                fontWeight: FontWeight.bold),
-                          ),
+                        SizedBox(
+                          height: 10,
                         ),
-                        Expanded(
-                          flex: 4,
-                          child: TextField(
-                            style: TextStyle(
-                              color: Colors.indigo,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLength: 9,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              hintText: 'Placa del vehiculo',
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.normal,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                'Nombre:',
+                                style: TextStyle(
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              border: InputBorder.none,
-                              counterText: '',
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            'Cedula titular:',
-                            style: TextStyle(
-                                color: Colors.indigo,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: TextField(
-                            style: TextStyle(
-                              color: Colors.indigo,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLength: 9,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              hintText: 'C.C titular vehiculo',
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.normal,
+                            Expanded(
+                              flex: 4,
+                              child: TextField(
+                                style: TextStyle(
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLength: 9,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  hintText: 'Nombre afectado',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  border: InputBorder.none,
+                                  counterText: '',
+                                ),
                               ),
-                              border: InputBorder.none,
-                              counterText: '',
                             ),
-                          ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                'Placa:',
+                                style: TextStyle(
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: TextField(
+                                style: TextStyle(
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLength: 9,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  hintText: 'Placa del vehiculo',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  border: InputBorder.none,
+                                  counterText: '',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                'Cedula titular:',
+                                style: TextStyle(
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: TextField(
+                                style: TextStyle(
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLength: 9,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: 'C.C titular vehiculo',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  border: InputBorder.none,
+                                  counterText: '',
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
               SizedBox(
                 height: 20,
@@ -1297,7 +1304,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                                 fontWeight: FontWeight.bold,
                               ),
                               maxLength: 9,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 hintText: '¿Cuál?',
                                 hintStyle: TextStyle(
@@ -1328,9 +1335,14 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 ),
                 child: Text(
                   'Registrar',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
+              SizedBox(
+                height: 30,
+              )
             ],
           ),
         ),

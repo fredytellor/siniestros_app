@@ -30,6 +30,8 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   TextEditingController textAddressController = TextEditingController();
   String textPosition;
   String dia;
+  bool posLoaded = false;
+  bool isLoadingPos = false;
   String ciudad;
   int numberPeople = 1;
   List<Placemark> placemark;
@@ -40,12 +42,28 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
     Size mediaQuerySize = MediaQuery.of(context).size;
 
     Future<void> _getPosition() async {
-      await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-          .then((value) {
-        print(value);
-        devicePosition = value;
-      });
+      try {
+        setState(() {
+          isLoadingPos = true;
+        });
+        await Geolocator()
+            .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+            .then(
+          (value) {
+            print(value);
+            devicePosition = value;
+            setState(() {
+              posLoaded = true;
+            });
+          },
+        );
+      } catch (error) {
+        print(error);
+        setState(() {
+          posLoaded = false;
+          isLoadingPos = false;
+        });
+      }
     }
 
     Future<void> _getImage() async {
@@ -282,27 +300,57 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                             Flexible(
                               flex: 6,
                               fit: FlexFit.tight,
-                              child: TextFormField(
-                                textAlign: TextAlign.center,
-                                controller: textAddressController,
-                                maxLines: 2,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  hintText: 'Dirección aproximada',
-                                  hintStyle: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 15,
-                                  ),
-                                  border: InputBorder.none,
-                                  counterText: '',
-                                ),
-                              ),
+                              child: posLoaded
+                                  ? TextFormField(
+                                      enabled: posLoaded,
+                                      textAlign: TextAlign.center,
+                                      controller: textAddressController,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.indigo,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      keyboardType: TextInputType.text,
+                                      decoration: InputDecoration(
+                                        hintText: 'Dirección aproximada',
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 15,
+                                        ),
+                                        border: InputBorder.none,
+                                        counterText: '',
+                                      ),
+                                    )
+                                  : Container(
+                                      //color: Colors.amber.withOpacity(0.1),
+                                      height: 30,
+                                      width: 15,
+                                      child: Center(
+                                        child: isLoadingPos
+                                            ? CircularProgressIndicator(
+                                                backgroundColor: Colors.white,
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(
+                                                  Colors.indigo,
+                                                ),
+                                              )
+                                            : GestureDetector(
+                                                onTap: () {
+                                                  getPositionText();
+                                                },
+                                                child: Text(
+                                                  'Dar ubicación',
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: Colors.black45,
+                                                  ),
+                                                ),
+                                              ),
+                                      ),
+                                    ),
                             ),
                             Flexible(
                               flex: 3,
@@ -320,23 +368,14 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                             ),
                           ],
                         ),
-
-                        /* Text(
-                            (textPosition != null)
-                                ? textPosition
-                                : 'Dar la ubicación',
+                        Container(
+                          margin: EdgeInsets.only(top: 7.5),
+                          child: Text(
+                            'ubicación del dispositivo aproximada',
                             style: TextStyle(
-                              color: Colors.indigo,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 10,
+                              color: Colors.black45,
                             ),
-                            textAlign: TextAlign.right,
-                          ),*/
-
-                        Text(
-                          'ubicación del dispositivo aproximada',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.black45,
                           ),
                         ),
                       ],

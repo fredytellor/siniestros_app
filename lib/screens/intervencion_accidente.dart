@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:siniestros_app/providers/methods.dart';
-import 'package:siniestros_app/widgets/dialogs.dart';
+import 'package:siniestros/providers/methods.dart';
+import 'package:siniestros/widgets/dialogs.dart';
 
 class IntervencionAccidente extends StatefulWidget {
   final DocumentSnapshot docAccidente;

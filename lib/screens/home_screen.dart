@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:siniestros_app/providers/methods.dart';
-import 'package:siniestros_app/screens/inicio.dart';
-import 'package:siniestros_app/widgets/my_siniestros_home.dart';
-import 'package:siniestros_app/widgets/new_siniestros_home.dart';
+import 'package:siniestros/providers/methods.dart';
+import 'package:siniestros/screens/inicio.dart';
+import 'package:siniestros/widgets/my_siniestros_home.dart';
+import 'package:siniestros/widgets/new_siniestros_home.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';

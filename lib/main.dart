@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:siniestros_app/providers/methods.dart';
-import 'package:siniestros_app/screens/home_screen.dart';
-import 'package:siniestros_app/screens/inicio_password.dart';
-import 'package:siniestros_app/screens/registro_correo.dart';
-import 'package:siniestros_app/screens/registro_screen.dart';
-import 'package:siniestros_app/screens/registro_vehiculo.dart';
-import 'package:siniestros_app/screens/splash.dart';
+import 'package:siniestros/providers/methods.dart';
+import 'package:siniestros/screens/home_screen.dart';
+import 'package:siniestros/screens/inicio_password.dart';
+import 'package:siniestros/screens/registro_correo.dart';
+import 'package:siniestros/screens/registro_screen.dart';
+import 'package:siniestros/screens/registro_vehiculo.dart';
+import 'package:siniestros/screens/splash.dart';
 import './screens/inicio.dart';
 import 'package:provider/provider.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:siniestros_app/providers/methods.dart';
-import 'package:siniestros_app/screens/registro_vehiculo.dart';
+import 'package:siniestros/providers/methods.dart';
+import 'package:siniestros/screens/registro_vehiculo.dart';
 
 class PerfilHomeSiniestros extends StatefulWidget {
   final BoxConstraints constraints;
@@ -67,10 +67,10 @@ class _PerfilHomeSiniestrosState extends State<PerfilHomeSiniestros> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, top: 10),
                     child: Text(
-                     (methods.user.profile_info['ocupacion'] != null &&
-                                  methods.user.profile_info['ocupacion'] != '')
-                              ? methods.user.profile_info['ocupacion']
-                              : 'Ocupación',
+                      (methods.user.profile_info['ocupacion'] != null &&
+                              methods.user.profile_info['ocupacion'] != '')
+                          ? methods.user.profile_info['ocupacion']
+                          : 'Ocupación',
                       style: TextStyle(
                         color: Colors.indigo,
                         fontWeight: FontWeight.bold,

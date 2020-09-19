@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:siniestros_app/providers/methods.dart';
+import 'package:siniestros/providers/methods.dart';
 
 class NewSiniestrosHome extends StatefulWidget {
   final BoxConstraints constraints;

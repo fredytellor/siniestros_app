@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:siniestros_app/providers/methods.dart';
-import 'package:siniestros_app/screens/registro_screen.dart';
-import 'package:siniestros_app/widgets/dialogs.dart';
+import 'package:siniestros/providers/methods.dart';
+import 'package:siniestros/screens/registro_screen.dart';
+import 'package:siniestros/widgets/dialogs.dart';
 
 import 'inicio.dart';
 
@@ -24,7 +24,7 @@ class _RegistroCorreoState extends State<RegistroCorreo> {
     void _validarCorreo() async {
       var result = await methods.consultarInicioEmail(emailController.text);
       if (!result) {
-        methods.user.profile_info['email']=emailController.text;
+        methods.user.profile_info['email'] = emailController.text;
         Navigator.of(context).pushReplacementNamed(RegistroScreen.routeName);
       } else {
         showDialog(
@@ -43,7 +43,7 @@ class _RegistroCorreoState extends State<RegistroCorreo> {
       }
     }
 
-     Widget _buildContent(BoxConstraints constraints) {
+    Widget _buildContent(BoxConstraints constraints) {
       return Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -96,10 +96,9 @@ class _RegistroCorreoState extends State<RegistroCorreo> {
                         cursorColor: Theme.of(context).primaryColor,
                         style: TextStyle(color: Theme.of(context).primaryColor),
                         decoration: InputDecoration(
-                         
                           labelText: 'Correo electrónico',
-                         labelStyle: TextStyle(
-                         color: Colors.indigo,
+                          labelStyle: TextStyle(
+                            color: Colors.indigo,
                             fontWeight: FontWeight.bold,
                           ),
                           border: UnderlineInputBorder(
@@ -144,7 +143,7 @@ class _RegistroCorreoState extends State<RegistroCorreo> {
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
-                          _validarCorreo();
+                            _validarCorreo();
                           }
                         },
                         color: Theme.of(context).primaryColor,
@@ -159,7 +158,6 @@ class _RegistroCorreoState extends State<RegistroCorreo> {
                       SizedBox(
                         height: constraints.maxHeight / 20,
                       ),
-                     
                       SizedBox(
                         height: constraints.maxHeight / 26,
                       ),

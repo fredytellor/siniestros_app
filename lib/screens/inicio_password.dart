@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:siniestros_app/providers/methods.dart';
-import 'package:siniestros_app/screens/home_screen.dart';
-import 'package:siniestros_app/screens/inicio.dart';
-import 'package:siniestros_app/widgets/dialogs.dart';
+import 'package:siniestros/providers/methods.dart';
+import 'package:siniestros/screens/home_screen.dart';
+import 'package:siniestros/screens/inicio.dart';
+import 'package:siniestros/widgets/dialogs.dart';
 
 class InicioPassword extends StatefulWidget {
   static const routeName = '/inicio-password';
@@ -27,7 +27,7 @@ class _InicioPasswordState extends State<InicioPassword> {
 
       if (result['status'] == true) {
         methods.uid = result['uid'];
-       await methods.getUsuario(methods.uid);
+        await methods.getUsuario(methods.uid);
         Navigator.of(context)
             .pushReplacementNamed(HomeScreen.routeName /*,arguments: null*/);
       } else {

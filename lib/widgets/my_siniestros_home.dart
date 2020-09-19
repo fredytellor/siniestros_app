@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:siniestros_app/providers/methods.dart';
-import 'package:siniestros_app/screens/intervencion_accidente.dart';
+import 'package:siniestros/providers/methods.dart';
+import 'package:siniestros/screens/intervencion_accidente.dart';
 
 class MySiniestrosHome extends StatefulWidget {
   final BoxConstraints constraints;

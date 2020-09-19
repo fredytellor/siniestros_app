@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:siniestros_app/providers/methods.dart';
-import 'package:siniestros_app/screens/inicio_password.dart';
-import 'package:siniestros_app/screens/registro_correo.dart';
-import 'package:siniestros_app/screens/registro_screen.dart';
-import 'package:siniestros_app/widgets/dialogs.dart';
+import 'package:siniestros/providers/methods.dart';
+import 'package:siniestros/screens/inicio_password.dart';
+import 'package:siniestros/screens/registro_correo.dart';
+import 'package:siniestros/screens/registro_screen.dart';
+import 'package:siniestros/widgets/dialogs.dart';
 import '../widgets/dialogs.dart';
 
 class Inicio extends StatefulWidget {
@@ -98,10 +98,9 @@ class _InicioState extends State<Inicio> {
                         cursorColor: Theme.of(context).primaryColor,
                         style: TextStyle(color: Theme.of(context).primaryColor),
                         decoration: InputDecoration(
-                         
                           labelText: 'Correo electrónico',
-                         labelStyle: TextStyle(
-                         color: Colors.indigo,
+                          labelStyle: TextStyle(
+                            color: Colors.indigo,
                             fontWeight: FontWeight.bold,
                           ),
                           border: UnderlineInputBorder(

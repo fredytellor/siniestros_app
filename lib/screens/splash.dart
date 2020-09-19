@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:siniestros_app/providers/methods.dart';
-import 'package:siniestros_app/screens/home_screen.dart';
-import 'package:siniestros_app/screens/inicio.dart';
+import 'package:siniestros/providers/methods.dart';
+import 'package:siniestros/screens/home_screen.dart';
+import 'package:siniestros/screens/inicio.dart';
 
 class Splash extends StatefulWidget {
   @override

@@ -49,6 +49,7 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
             if (documents.length > 0) {
               return Container(
                 child: ListView.builder(
+                  padding: EdgeInsets.only(bottom: 70),
                   itemCount: documents.length,
                   itemBuilder: (BuildContext context, index) {
                     return GestureDetector(
@@ -83,17 +84,18 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
                             Icons.directions_car,
                             color: Colors.indigo,
                           ),*/
-                              Container(height: 40,
-                              width: 40,
-                                child: FadeInImage(
-                            image: NetworkImage(
+                              Container(
+                            height: 40,
+                            width: 40,
+                            child: FadeInImage(
+                              image: NetworkImage(
                                 documents[index]['foto'],
-                            ),
-                            placeholder:
-                                  AssetImage('assets/images/accidente.png'),
-                            fit: BoxFit.cover,
-                          ),
                               ),
+                              placeholder:
+                                  AssetImage('assets/images/accidente.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
                     );

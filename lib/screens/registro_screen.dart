@@ -36,9 +36,9 @@ class _RegistroScreenState extends State<RegistroScreen> {
             'apellidos': apellidosController.text,
             'cedula': cedulaController.text,
             'edad': edadController.text,
-            'rol': '1',
+            'rol': '2',
             'ocupacion': selectedOcupacion,
-            'genero':(sexo)?'Hombre':'Mujer',
+            'genero': (sexo) ? 'Hombre' : 'Mujer',
           },
           'ubicacion': {
             'ciudad': selectedCiudad,
@@ -566,7 +566,12 @@ class _RegistroScreenState extends State<RegistroScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text('Género',style: TextStyle(color: Colors.indigo,fontWeight: FontWeight.bold),),
+                            Text(
+                              'Género',
+                              style: TextStyle(
+                                  color: Colors.indigo,
+                                  fontWeight: FontWeight.bold),
+                            ),
                             Column(
                               children: <Widget>[
                                 Switch(
@@ -579,7 +584,13 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                   activeColor: Colors.indigo,
                                   inactiveTrackColor: Colors.purple,
                                 ),
-                                Text((sexo) ? 'Hombre' : 'Mujer',style: TextStyle(color: Colors.indigo,fontSize: 12,fontWeight: FontWeight.bold),),
+                                Text(
+                                  (sexo) ? 'Hombre' : 'Mujer',
+                                  style: TextStyle(
+                                      color: Colors.indigo,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ],
                             ),
                           ],

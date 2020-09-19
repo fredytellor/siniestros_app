@@ -26,8 +26,18 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   String selectedTipoBien;
   String selectedRegistro;
   Position devicePosition;
+  List<bool> actionsTaken = [
+    false,
+    false,
+    false,
+    false,
+  ];
+
+  List<List> textPeopleController = [];
   TextEditingController descripcionController = TextEditingController();
   TextEditingController textAddressController = TextEditingController();
+  TextEditingController textValorController = TextEditingController();
+  TextEditingController textOtherAction = TextEditingController();
   String textPosition;
   String dia;
   bool posLoaded = false;
@@ -35,6 +45,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
   String ciudad;
   int numberPeople = 1;
   List<Placemark> placemark;
+
   @override
   Widget build(BuildContext context) {
     Methods methods = Provider.of<Methods>(context);
@@ -67,18 +78,48 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
     }
 
     Future<void> _getImage() async {
-      var image = await ImagePicker.pickImage(source: ImageSource.camera);
-      if (image != null) {
-        setState(() {
-          _image = image;
-        });
-        methods.showSnackbar(
-            context: context, duracion: 2, mensaje: 'Foto lista!');
-      } else {
-        methods.showSnackbar(
+      try {
+        var image = await ImagePicker.pickImage(source: ImageSource.camera);
+        if (image != null) {
+          setState(() {
+            _image = image;
+          });
+          methods.showFlushBar(
             context: context,
-            duracion: 2,
-            mensaje: 'No has elegido una foto nueva');
+            title: 'Listo',
+            message: '¡Foto lista!',
+            icon: Icon(
+              Icons.check_circle,
+              color: Colors.white,
+            ),
+          );
+          /*methods.showSnackbar(
+          context: context,
+          duracion: 2,
+          mensaje: 'Foto lista!',
+        );*/
+        } else {
+          methods.showFlushBar(
+            context: context,
+            title: 'Ops',
+            message: 'No has elegido una foto',
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+          );
+        }
+      } catch (error) {
+        print(error);
+        methods.showFlushBar(
+          context: context,
+          title: 'error',
+          message: error.toString(),
+          icon: Icon(
+            Icons.close,
+            color: Colors.white,
+          ),
+        );
       }
     }
 
@@ -286,95 +327,82 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                   Expanded(
                     flex: 2,
                     child: Text(
-                      'Ubicación',
+                      'Ubicación:',
                       style: TextStyle(
-                          color: Colors.indigo, fontWeight: FontWeight.bold),
+                        color: Colors.indigo,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Expanded(
                     flex: 6,
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: [
-                            Flexible(
-                              flex: 6,
-                              fit: FlexFit.tight,
-                              child: posLoaded
-                                  ? TextFormField(
-                                      enabled: posLoaded,
-                                      textAlign: TextAlign.center,
-                                      controller: textAddressController,
-                                      maxLines: 2,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.indigo,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
-                                        hintText: 'Dirección aproximada',
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        ),
-                                        border: InputBorder.none,
-                                        counterText: '',
-                                      ),
-                                    )
-                                  : Container(
-                                      //color: Colors.amber.withOpacity(0.1),
-                                      height: 30,
-                                      width: 15,
-                                      child: Center(
-                                        child: isLoadingPos
-                                            ? CircularProgressIndicator(
-                                                backgroundColor: Colors.white,
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(
-                                                  Colors.indigo,
-                                                ),
-                                              )
-                                            : GestureDetector(
-                                                onTap: () {
-                                                  getPositionText();
-                                                },
-                                                child: Text(
-                                                  'Dar ubicación',
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.black45,
-                                                  ),
-                                                ),
-                                              ),
-                                      ),
+                    child: Row(
+                      children: [
+                        Flexible(
+                          flex: 6,
+                          fit: FlexFit.tight,
+                          child: posLoaded
+                              ? TextFormField(
+                                  enabled: posLoaded,
+                                  textAlign: TextAlign.center,
+                                  controller: textAddressController,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.indigo,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  decoration: InputDecoration(
+                                    hintText: 'Dirección aproximada',
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 15,
                                     ),
-                            ),
-                            Flexible(
-                              flex: 3,
-                              fit: FlexFit.tight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  //_showMMapDialog();
-                                  getPositionText();
-                                },
-                                child: Icon(
-                                  Icons.pin_drop,
-                                  color: Colors.indigo,
+                                    border: InputBorder.none,
+                                    counterText: '',
+                                  ),
+                                )
+                              : Container(
+                                  //color: Colors.amber.withOpacity(0.1),
+                                  height: 30,
+                                  width: 15,
+                                  child: Center(
+                                    child: isLoadingPos
+                                        ? CircularProgressIndicator(
+                                            backgroundColor: Colors.white,
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                              Colors.indigo,
+                                            ),
+                                          )
+                                        : GestureDetector(
+                                            onTap: () {
+                                              getPositionText();
+                                            },
+                                            child: Text(
+                                              'Dar ubicación',
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.black45,
+                                              ),
+                                            ),
+                                          ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ],
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 7.5),
-                          child: Text(
-                            'ubicación del dispositivo aproximada',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.black45,
+                        Flexible(
+                          flex: 3,
+                          fit: FlexFit.tight,
+                          child: GestureDetector(
+                            onTap: () {
+                              //_showMMapDialog();
+                              getPositionText();
+                            },
+                            child: Icon(
+                              Icons.pin_drop,
+                              color: Colors.indigo,
                             ),
                           ),
                         ),
@@ -752,6 +780,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                   Expanded(
                     flex: 4,
                     child: TextFormField(
+                      controller: textValorController,
                       style: TextStyle(
                         color: Colors.indigo,
                         fontWeight: FontWeight.bold,
@@ -927,6 +956,15 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 shrinkWrap: true,
                 itemCount: numberPeople,
                 itemBuilder: (context, index) {
+                  textPeopleController.add(
+                    [
+                      '', //genero
+                      '', //estado
+                      new TextEditingController(), //nombre
+                      new TextEditingController(), //placa
+                      new TextEditingController(), //cedula titular
+                    ],
+                  );
                   return Container(
                     margin: EdgeInsets.symmetric(
                         horizontal: mediaQuerySize.width * 0.025,
@@ -968,11 +1006,14 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                                   return DropdownButton<String>(
                                     onChanged: (newValue) {
                                       setState(() {
-                                        selectedClaseBien = newValue;
+                                        textPeopleController[index][0] =
+                                            newValue;
                                       });
                                     },
                                     isExpanded: true,
-                                    value: selectedClaseBien,
+                                    value: textPeopleController[index][0] != ''
+                                        ? textPeopleController[index][0]
+                                        : null,
                                     hint: Text('Género del afectado'),
                                     items: [
                                       DropdownMenuItem(
@@ -1034,12 +1075,17 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                                 builder: (child) {
                                   return DropdownButton<String>(
                                     onChanged: (newValue) {
-                                      setState(() {
-                                        selectedClaseBien = newValue;
-                                      });
+                                      setState(
+                                        () {
+                                          textPeopleController[index][1] =
+                                              newValue;
+                                        },
+                                      );
                                     },
                                     isExpanded: true,
-                                    value: selectedClaseBien,
+                                    value: textPeopleController[index][1] != ''
+                                        ? textPeopleController[index][1]
+                                        : null,
                                     hint: Text('Estado del afectado'),
                                     items: [
                                       DropdownMenuItem(
@@ -1108,6 +1154,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                             Expanded(
                               flex: 4,
                               child: TextField(
+                                controller: textPeopleController[index][2],
                                 style: TextStyle(
                                   color: Colors.indigo,
                                   fontWeight: FontWeight.bold,
@@ -1145,11 +1192,12 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                             Expanded(
                               flex: 4,
                               child: TextField(
+                                controller: textPeopleController[index][3],
                                 style: TextStyle(
                                   color: Colors.indigo,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                maxLength: 9,
+                                maxLength: 7,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
                                   hintText: 'Placa del vehiculo',
@@ -1182,11 +1230,12 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                             Expanded(
                               flex: 4,
                               child: TextField(
+                                controller: textPeopleController[index][4],
                                 style: TextStyle(
                                   color: Colors.indigo,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                maxLength: 9,
+                                maxLength: 12,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: 'C.C titular vehiculo',
@@ -1292,8 +1341,14 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     Row(
                       children: [
                         Checkbox(
-                          value: true,
-                          onChanged: (newValue) {},
+                          value: actionsTaken[0],
+                          checkColor: Colors.white,
+                          activeColor: Colors.indigo,
+                          onChanged: (newValue) {
+                            setState(() {
+                              actionsTaken[0] = newValue;
+                            });
+                          },
                         ),
                         Text(
                           'Reporte aseguradora',
@@ -1303,8 +1358,14 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     Row(
                       children: [
                         Checkbox(
-                          value: true,
-                          onChanged: (newValue) {},
+                          value: actionsTaken[1],
+                          checkColor: Colors.white,
+                          activeColor: Colors.indigo,
+                          onChanged: (newValue) {
+                            setState(() {
+                              actionsTaken[1] = newValue;
+                            });
+                          },
                         ),
                         Text(
                           'Atención victimas',
@@ -1314,8 +1375,14 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     Row(
                       children: [
                         Checkbox(
-                          value: true,
-                          onChanged: (newValue) {},
+                          value: actionsTaken[2],
+                          checkColor: Colors.white,
+                          activeColor: Colors.indigo,
+                          onChanged: (newValue) {
+                            setState(() {
+                              actionsTaken[2] = newValue;
+                            });
+                          },
                         ),
                         Text(
                           'Multa',
@@ -1325,24 +1392,30 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     Row(
                       children: [
                         Checkbox(
-                          value: true,
-                          onChanged: (newValue) {},
+                          value: actionsTaken[3],
+                          checkColor: Colors.white,
+                          activeColor: Colors.indigo,
+                          onChanged: (newValue) {
+                            setState(() {
+                              actionsTaken[3] = newValue;
+                            });
+                          },
                         ),
                         Text(
                           'Otra',
                         )
                       ],
                     ),
-                    (true)
+                    (actionsTaken[3])
                         ? Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 20.0),
                             child: TextFormField(
+                              controller: textOtherAction,
                               style: TextStyle(
                                 color: Colors.indigo,
                                 fontWeight: FontWeight.bold,
                               ),
-                              maxLength: 9,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 hintText: '¿Cuál?',

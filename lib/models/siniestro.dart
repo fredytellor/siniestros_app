@@ -9,6 +9,14 @@ class Siniestro {
   String factorAmbiental;
   String foto;
   String registradorUid;
+/*
+  String croquis;
+  String tipoRegistro;
+  String bienAfectado;
+  String claseBienAfectado;
+  String valorBienAfectado;
+  int numeroAfectados;
+  */
 
   void setSiniestro({
     String ubicacion,

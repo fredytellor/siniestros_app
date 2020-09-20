@@ -25,10 +25,11 @@ class Methods with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> crearSiniestro(Siniestro newSiniestro) async {
+  Future<String> crearSiniestro(
+      /*Siniestro newSiniestro*/ Map newSiniestro) async {
     String docId;
     try {
-      Map<String, dynamic> newMapedSiniestro = {
+      /* Map<String, dynamic> newMapedSiniestro = {
         'ubicacion': newSiniestro.ubicacion,
         'ciudad': newSiniestro.ciudad,
         'fecha': newSiniestro.fecha,
@@ -39,16 +40,14 @@ class Methods with ChangeNotifier {
         'factorAmbiental': newSiniestro.factorAmbiental,
         'foto': newSiniestro.foto,
         'registrador': newSiniestro.registradorUid,
-      };
+      };*/
 
-      await Firestore.instance
-          .collection('siniestros')
-          .add(newMapedSiniestro)
-          .then((doc) {
-        print(doc.documentID);
-        docId = doc.documentID;
-      });
-
+      await Firestore.instance.collection('siniestros').add(newSiniestro).then(
+        (doc) {
+          print(doc.documentID);
+          docId = doc.documentID;
+        },
+      );
       return docId;
     } catch (error) {
       print(error);
@@ -125,9 +124,9 @@ class Methods with ChangeNotifier {
   }
 
   Future<bool> updateSiniestro(
-      {String siniestroId, Siniestro newSiniestro}) async {
+      {String siniestroId, String fotoURL, String croquisURL}) async {
     bool result = false;
-    Map<String, dynamic> newMapedSiniestro = {
+    /* Map<String, dynamic> newMapedSiniestro = {
       'ubicacion': newSiniestro.ubicacion,
       'ciudad': newSiniestro.ciudad,
       'fecha': newSiniestro.fecha,
@@ -138,12 +137,16 @@ class Methods with ChangeNotifier {
       'factorAmbiental': newSiniestro.factorAmbiental,
       'foto': newSiniestro.foto,
       'registrador': newSiniestro.registradorUid,
-    };
+    };*/
     await Firestore.instance
         .collection('siniestros')
         .document(siniestroId)
-        .setData(newMapedSiniestro)
-        .then((_) {
+        .updateData(
+      {
+        'foto': fotoURL,
+        'croquis': croquisURL,
+      },
+    ).then((_) {
       result = true;
     });
 

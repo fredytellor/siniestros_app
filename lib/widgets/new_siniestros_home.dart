@@ -188,9 +188,189 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
       }
     }
 
+    _cleanData() {
+      setState(() {
+        selectedCondicionCarretera = null;
+        _image = null;
+        _croquis = null;
+        selectedFactorAmbiental = null;
+        selectedCausaPrimaria = null;
+        selectedClaseBien = null;
+        selectedTipoBien = null;
+        selectedRegistro = null;
+        devicePosition = null;
+        actionsTaken = [
+          false,
+          false,
+          false,
+          false,
+        ];
+        textPeopleController = [];
+        descripcionController = TextEditingController();
+        textAddressController = TextEditingController();
+        textValorController = TextEditingController();
+        textOtherAction = TextEditingController();
+        textPosition = null;
+        posLoaded = false;
+        isLoadingPos = false;
+        ciudad = null;
+        numberPeople = 1;
+        placemark = null;
+      });
+    }
+
+    void _crearRegistro() async {
+      try {
+        methods.showSnackbar(
+          duracion: 59,
+          context: context,
+          mensaje: 'Creando registro...',
+        );
+
+        List<Map> afectados = [];
+        textPeopleController.forEach(
+          (afectadoTextos) {
+            afectados.add(
+              {
+                'genero': afectadoTextos[0],
+                'estado': afectadoTextos[1],
+                'nombre': afectadoTextos[2],
+                'placa': afectadoTextos[3],
+                'cedula_titular': afectadoTextos[4],
+              },
+            );
+          },
+        );
+
+        Map newSiniestro = {
+          'ciudad': ciudad,
+          'ubicacion': textPosition,
+          'tipo_registro': selectedRegistro,
+          'condicion_carretera': selectedCondicionCarretera,
+          'factor_ambiental': selectedFactorAmbiental,
+          'causa_primaria': selectedCausaPrimaria,
+          'tipo_bien_afectado': selectedTipoBien,
+          'clase_bien_afectado': selectedClaseBien,
+          'valor_bien_afectado': textValorController,
+          'foto': '',
+          'croquis': '',
+          'descripcion': descripcionController,
+          'acciones': {
+            'reporte_aseguradora': actionsTaken[0],
+            'atencion_victimas': actionsTaken[1],
+            'multa': actionsTaken[2],
+            'otra': actionsTaken[3],
+          },
+          'accion_otra_texto': textOtherAction,
+          'afectados': afectados,
+        };
+
+        String siniestroID = await methods.crearSiniestro(newSiniestro);
+
+        if (siniestroID != null) {
+          String fotoURL;
+          String croquisURL;
+          if (_image != null) {
+            fotoURL = await methods.cargarFoto(
+              idSiniestro: siniestroID,
+              imagen: _image,
+            );
+          }
+          if (_croquis != null) {
+            croquisURL = await methods.cargarCroquis(
+              idSiniestro: siniestroID,
+              croquis: _croquis,
+            );
+          }
+
+          if (fotoURL != null || croquisURL != null) {
+            bool result = await methods.updateSiniestro(
+              croquisURL: croquisURL,
+              fotoURL: fotoURL,
+              siniestroId: siniestroID,
+            );
+            if (result) {
+              Scaffold.of(context).hideCurrentSnackBar();
+              methods.showFlushBar(
+                context: context,
+                title: 'Listo',
+                message: 'Registro creado con foto o croquis',
+                icon: Icon(
+                  Icons.check_circle,
+                  color: Colors.white,
+                ),
+              );
+            } else {
+              Scaffold.of(context).hideCurrentSnackBar();
+              _cleanData();
+              methods.showFlushBar(
+                context: context,
+                title: 'Listo',
+                message: 'Registro creado no se pudo cargar foto o croquis',
+                icon: Icon(
+                  Icons.check_circle,
+                  color: Colors.white,
+                ),
+              );
+            }
+          } else {
+            Scaffold.of(context).hideCurrentSnackBar();
+            _cleanData();
+            methods.showFlushBar(
+              context: context,
+              title: 'Listo',
+              message: 'Registro creado sin foto ni croquis',
+              icon: Icon(
+                Icons.check_circle,
+                color: Colors.white,
+              ),
+            );
+          }
+        } else {
+          Scaffold.of(context).hideCurrentSnackBar();
+          methods.showSnackbar(
+            duracion: 3,
+            mensaje: 'Hubo un error al tratar de registrar el siniestro.',
+            context: context,
+          );
+        }
+      } catch (error) {
+        methods.showFlushBar(
+          context: context,
+          title: 'error',
+          message: error.toString(),
+          icon: Icon(
+            Icons.close,
+            color: Colors.white,
+          ),
+        );
+      }
+    }
+
     _validarRegistro() {
       try {
-        if (ciudad == null) {
+        bool afectadosCompleted = true;
+        print(textPeopleController.length);
+        textPeopleController.forEach(
+          (afectado) {
+            if (afectado.any((element) =>
+                element is String ? element == '' : element.text == '')) {
+              afectadosCompleted = false;
+            }
+          },
+        );
+        if (!afectadosCompleted) {
+          methods.showFlushBar(
+            context: context,
+            title: 'Ops',
+            message:
+                'La informacion de todos los afectados es necesaria para registrar',
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+          );
+        } else if (ciudad == null) {
           methods.showFlushBar(
             context: context,
             title: 'Ops',
@@ -262,7 +442,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
             ),
           );
         } else {
-          print('todo validado');
+          _crearRegistro();
         }
       } catch (error) {
         print(error);
@@ -276,77 +456,6 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
           ),
         );
       }
-    }
-
-    void _crearRegistro() async {
-      methods.showSnackbar(
-        duracion: 59,
-        context: context,
-        mensaje: 'Creando registro...',
-      );
-      methods.siniestro.setSiniestro(
-        fecha: DateFormat('MM/d/y').format(DateTime.now()),
-        ciudad: ciudad,
-        dia: dia,
-        foto: '',
-        causaPrimaria:
-            (selectedCausaPrimaria != null) ? selectedCausaPrimaria : '',
-        condicionCarretera: (selectedCondicionCarretera != null)
-            ? selectedCondicionCarretera
-            : '',
-        factorAmbiental:
-            (selectedFactorAmbiental != null) ? selectedFactorAmbiental : '',
-        descripcion: (descripcionController.text != null)
-            ? descripcionController.text
-            : '',
-        ubicacion: textPosition,
-        registradorUid: methods.uid,
-      );
-
-      String siniestroID = await methods.crearSiniestro(methods.siniestro);
-
-      if (siniestroID != null) {
-        String url =
-            await methods.cargarFoto(idSiniestro: siniestroID, imagen: _image);
-
-        if (url != null) {
-          methods.siniestro.foto = url;
-
-          var result = await methods.updateSiniestro(
-              siniestroId: siniestroID, newSiniestro: methods.siniestro);
-
-          if (result) {
-            Scaffold.of(context).hideCurrentSnackBar();
-            methods.showSnackbar(
-                duracion: 3,
-                mensaje: 'Siniestro ' + siniestroID + ' registrado.',
-                context: context);
-          } else {
-            Scaffold.of(context).hideCurrentSnackBar();
-            methods.showSnackbar(
-                duracion: 3,
-                mensaje:
-                    'No logramos vincular la foto del siniestro al registro',
-                context: context);
-          }
-        }
-      } else {
-        Scaffold.of(context).hideCurrentSnackBar();
-        methods.showSnackbar(
-            duracion: 3,
-            mensaje: 'Hubo un error al tratar de registrar el siniestro.',
-            context: context);
-      }
-      setState(() {
-        selectedFactorAmbiental = null;
-        selectedCausaPrimaria = null;
-        selectedCondicionCarretera = null;
-        ciudad = null;
-        dia = null;
-        descripcionController.text = '';
-        textPosition = null;
-        _image = null;
-      });
     }
 
     return Container(
@@ -1025,15 +1134,17 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 shrinkWrap: true,
                 itemCount: numberPeople,
                 itemBuilder: (context, index) {
-                  textPeopleController.add(
-                    [
-                      '', //genero
-                      '', //estado
-                      new TextEditingController(), //nombre
-                      new TextEditingController(), //placa
-                      new TextEditingController(), //cedula titular
-                    ],
-                  );
+                  if (textPeopleController.length == 0) {
+                    textPeopleController.add(
+                      [
+                        '', //genero
+                        '', //estado
+                        new TextEditingController(), //nombre
+                        new TextEditingController(), //placa
+                        new TextEditingController(), //cedula titular
+                      ],
+                    );
+                  }
                   return Container(
                     margin: EdgeInsets.symmetric(
                         horizontal: mediaQuerySize.width * 0.025,

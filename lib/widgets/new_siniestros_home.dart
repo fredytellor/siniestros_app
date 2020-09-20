@@ -188,27 +188,102 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
       }
     }
 
-    bool _validarRegistro() {
-      if (ciudad == null) {
-        methods.showSnackbar(
+    _validarRegistro() {
+      try {
+        if (ciudad == null) {
+          methods.showFlushBar(
             context: context,
-            duracion: 3,
-            mensaje: 'Es necesaria la ubicación para registrar el siniestro');
-        return false;
-      } else if (_image == null) {
-        methods.showSnackbar(
+            title: 'Ops',
+            message: 'La ubicación es necesaria para registrar',
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+          );
+        } else if (selectedRegistro == null) {
+          methods.showFlushBar(
             context: context,
-            duracion: 3,
-            mensaje: 'Es necesaria una foto del siniestro');
-        return false;
-      } else {
-        return true;
+            title: 'Ops',
+            message: 'El tipo de registro es necesaria para registrar',
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+          );
+        } else if (selectedCondicionCarretera == null) {
+          methods.showFlushBar(
+            context: context,
+            title: 'Ops',
+            message: 'La condición de carretera es necesaria para registrar',
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+          );
+        } else if (selectedFactorAmbiental == null) {
+          methods.showFlushBar(
+            context: context,
+            title: 'Ops',
+            message: 'El factor ambiental es necesario para registrar',
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+          );
+        } else if (selectedCausaPrimaria == null) {
+          methods.showFlushBar(
+            context: context,
+            title: 'Ops',
+            message: 'La causa primaria es necesaria para registrar',
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+          );
+        } else if (!actionsTaken.any((actions) => actions == true)) {
+          methods.showFlushBar(
+            context: context,
+            title: 'Ops',
+            message: 'Alguna acción es necesaria para registrar',
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+          );
+        } else if (descripcionController.text.isEmpty ||
+            descripcionController.text.length < 4) {
+          methods.showFlushBar(
+            context: context,
+            title: 'Ops',
+            message: 'Una descripción es necesaria para registrar',
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+          );
+        } else {
+          print('todo validado');
+        }
+      } catch (error) {
+        print(error);
+        methods.showFlushBar(
+          context: context,
+          title: 'error',
+          message: error,
+          icon: Icon(
+            Icons.close,
+            color: Colors.white,
+          ),
+        );
       }
     }
 
     void _crearRegistro() async {
       methods.showSnackbar(
-          duracion: 59, context: context, mensaje: 'Creando registro...');
+        duracion: 59,
+        context: context,
+        mensaje: 'Creando registro...',
+      );
       methods.siniestro.setSiniestro(
         fecha: DateFormat('MM/d/y').format(DateTime.now()),
         ciudad: ciudad,
@@ -311,12 +386,6 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 height: 2,
                 width: widget.constraints.maxWidth,
                 color: Colors.indigo[200],
-              ),
-              Center(
-                child: Text(
-                  'Recuerda que la ubicación y la foto son obligatorios',
-                  style: TextStyle(fontSize: 12, color: Colors.black54),
-                ),
               ),
               SizedBox(
                 height: 30,
@@ -986,7 +1055,13 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                     ),
                     child: Column(
                       children: [
-                        Text('Afectado #' + (index + 1).toString()),
+                        Text(
+                          'Afectado #' + (index + 1).toString(),
+                          style: TextStyle(
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -1010,11 +1085,18 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                                             newValue;
                                       });
                                     },
+                                    underline: SizedBox(),
                                     isExpanded: true,
                                     value: textPeopleController[index][0] != ''
                                         ? textPeopleController[index][0]
                                         : null,
-                                    hint: Text('Género del afectado'),
+                                    hint: Text(
+                                      'Género del afectado',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
                                     items: [
                                       DropdownMenuItem(
                                         child: new Text(
@@ -1086,7 +1168,14 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                                     value: textPeopleController[index][1] != ''
                                         ? textPeopleController[index][1]
                                         : null,
-                                    hint: Text('Estado del afectado'),
+                                    hint: Text(
+                                      'Estado del afectado',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    underline: SizedBox(),
                                     items: [
                                       DropdownMenuItem(
                                         child: new Text(
@@ -1337,7 +1426,13 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 ),
                 child: Column(
                   children: [
-                    Text('Acciones tomadas'),
+                    Text(
+                      'Acciones tomadas',
+                      style: TextStyle(
+                        color: Colors.indigo,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     Row(
                       children: [
                         Checkbox(
@@ -1437,9 +1532,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
               ),
               FlatButton(
                 onPressed: () {
-                  if (_validarRegistro()) {
-                    _crearRegistro();
-                  }
+                  _validarRegistro();
                 },
                 color: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(

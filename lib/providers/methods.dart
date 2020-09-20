@@ -29,19 +29,6 @@ class Methods with ChangeNotifier {
       /*Siniestro newSiniestro*/ Map newSiniestro) async {
     String docId;
     try {
-      /* Map<String, dynamic> newMapedSiniestro = {
-        'ubicacion': newSiniestro.ubicacion,
-        'ciudad': newSiniestro.ciudad,
-        'fecha': newSiniestro.fecha,
-        'dia': newSiniestro.dia,
-        'descripcion': newSiniestro.descripcion,
-        'condicionCarretera': newSiniestro.condicionCarretera,
-        'causaPrimaria': newSiniestro.causaPrimaria,
-        'factorAmbiental': newSiniestro.factorAmbiental,
-        'foto': newSiniestro.foto,
-        'registrador': newSiniestro.registradorUid,
-      };*/
-
       await Firestore.instance.collection('siniestros').add(newSiniestro).then(
         (doc) {
           print(doc.documentID);

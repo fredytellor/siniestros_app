@@ -234,9 +234,9 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
               {
                 'genero': afectadoTextos[0],
                 'estado': afectadoTextos[1],
-                'nombre': afectadoTextos[2],
-                'placa': afectadoTextos[3],
-                'cedula_titular': afectadoTextos[4],
+                'nombre': afectadoTextos[2].text,
+                'placa': afectadoTextos[3].text,
+                'cedula_titular': afectadoTextos[4].text,
               },
             );
           },

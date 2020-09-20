@@ -241,27 +241,27 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
             );
           },
         );
-
-        Map newSiniestro = {
+        print(afectados);
+        Map<String, dynamic> newSiniestro = {
           'ciudad': ciudad,
-          'ubicacion': textPosition,
+          'ubicacion': textAddressController.text,
           'tipo_registro': selectedRegistro,
           'condicion_carretera': selectedCondicionCarretera,
           'factor_ambiental': selectedFactorAmbiental,
           'causa_primaria': selectedCausaPrimaria,
           'tipo_bien_afectado': selectedTipoBien,
           'clase_bien_afectado': selectedClaseBien,
-          'valor_bien_afectado': textValorController,
+          'valor_bien_afectado': textValorController.text,
           'foto': '',
           'croquis': '',
-          'descripcion': descripcionController,
+          'descripcion': descripcionController.text,
           'acciones': {
             'reporte_aseguradora': actionsTaken[0],
             'atencion_victimas': actionsTaken[1],
             'multa': actionsTaken[2],
             'otra': actionsTaken[3],
           },
-          'accion_otra_texto': textOtherAction,
+          'accion_otra_texto': textOtherAction.text,
           'afectados': afectados,
         };
 

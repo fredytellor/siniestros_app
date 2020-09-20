@@ -243,6 +243,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
         );
         print(afectados);
         Map<String, dynamic> newSiniestro = {
+          'fecha': DateFormat('yyyy-MM-dd').format(DateTime.now()),
           'ciudad': ciudad,
           'ubicacion': textAddressController.text,
           'tipo_registro': selectedRegistro,
@@ -291,6 +292,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
             );
             if (result) {
               Scaffold.of(context).hideCurrentSnackBar();
+              _cleanData();
               methods.showFlushBar(
                 context: context,
                 title: 'Listo',

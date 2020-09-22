@@ -113,18 +113,6 @@ class Methods with ChangeNotifier {
   Future<bool> updateSiniestro(
       {String siniestroId, String fotoURL, String croquisURL}) async {
     bool result = false;
-    /* Map<String, dynamic> newMapedSiniestro = {
-      'ubicacion': newSiniestro.ubicacion,
-      'ciudad': newSiniestro.ciudad,
-      'fecha': newSiniestro.fecha,
-      'dia': newSiniestro.dia,
-      'descripcion': newSiniestro.descripcion,
-      'condicionCarretera': newSiniestro.condicionCarretera,
-      'causaPrimaria': newSiniestro.causaPrimaria,
-      'factorAmbiental': newSiniestro.factorAmbiental,
-      'foto': newSiniestro.foto,
-      'registrador': newSiniestro.registradorUid,
-    };*/
     await Firestore.instance
         .collection('siniestros')
         .document(siniestroId)
@@ -136,7 +124,6 @@ class Methods with ChangeNotifier {
     ).then((_) {
       result = true;
     });
-
     return result;
   }
 

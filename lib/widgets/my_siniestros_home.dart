@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:siniestros/providers/methods.dart';
 import 'package:siniestros/screens/intervencion_accidente.dart';
+import 'package:siniestros/screens/siniestro_details.dart';
 
 class MySiniestrosHome extends StatefulWidget {
   final BoxConstraints constraints;
@@ -54,7 +55,7 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
                   itemBuilder: (BuildContext context, index) {
                     return GestureDetector(
                       onTap: () {
-                        if (isAuthorized) {
+                        /*if (isAuthorized) {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
@@ -64,7 +65,17 @@ class _MySiniestrosHomeState extends State<MySiniestrosHome> {
                               },
                             ),
                           );
-                        }
+                        }*/
+
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return SiniestroDetails(
+                                documents[index],
+                              );
+                            },
+                          ),
+                        );
                       },
                       child: Card(
                         elevation: 10,

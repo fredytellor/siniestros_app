@@ -3,9 +3,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_permissions/simple_permissions.dart';
 import 'package:siniestros/providers/methods.dart';
 import 'package:siniestros/screens/image_viewer.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:siniestros/screens/pdf_viewer_page.dart';
 
 class SiniestroDetails extends StatefulWidget {
   final DocumentSnapshot siniestroId;
@@ -165,6 +170,69 @@ class _SiniestroDetailsState extends State<SiniestroDetails> {
               color: Colors.white,
             ),
           );
+        }
+      } catch (error) {
+        methods.showFlushBar(
+          context: context,
+          duration: 3,
+          title: 'Ops',
+          message: error.toString(),
+          icon: Icon(
+            Icons.close,
+            color: Colors.white,
+          ),
+        );
+      }
+    }
+
+    _exportPDF() async {
+      try {
+        bool writeFilePermission = await SimplePermissions.checkPermission(
+            Permission.WriteExternalStorage);
+
+        if (writeFilePermission) {
+          final pdf = pw.Document();
+          pdf.addPage(
+            pw.Page(
+              pageFormat: PdfPageFormat.a4,
+              build: (pw.Context context) {
+                return pw.Center(
+                  child: pw.Text("PDF demo"),
+                ); // Center
+              },
+            ),
+          );
+
+          final String dir = (await getApplicationDocumentsDirectory()).path;
+          final String path = '$dir/report.pdf';
+          final File file = File(path);
+          await file.writeAsBytes(pdf.save());
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => PdfViewerPage(path),
+            ),
+          );
+        } else {
+          PermissionStatus permissionStatus =
+              await SimplePermissions.requestPermission(
+            Permission.WriteExternalStorage,
+          );
+
+          if (permissionStatus == PermissionStatus.authorized ||
+              permissionStatus == PermissionStatus.restricted) {
+            _exportPDF();
+          } else {
+            methods.showFlushBar(
+              context: context,
+              duration: 3,
+              title: 'Ops',
+              message: 'Otorgas permisos para continuar',
+              icon: Icon(
+                Icons.info_outline,
+                color: Colors.white,
+              ),
+            );
+          }
         }
       } catch (error) {
         methods.showFlushBar(
@@ -1306,7 +1374,7 @@ class _SiniestroDetailsState extends State<SiniestroDetails> {
                           ),
                           color: Colors.indigo,
                           onPressed: () {
-                            print('exportar pdf');
+                            _exportPDF();
                           },
                           child: Text(
                             'Exportar PDF',

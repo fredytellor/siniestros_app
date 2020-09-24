@@ -612,15 +612,21 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                         return DropdownButton<String>(
                           onChanged: (newValue) {
                             if (newValue == 'Accidente') {
-                              setState(() {
-                                selectedRegistro = newValue;
-                                numberPeople = 2;
-                              });
+                              setState(
+                                () {
+                                  selectedRegistro = newValue;
+                                  numberPeople = 2;
+                                  textPeopleController.clear();
+                                },
+                              );
                             } else {
-                              setState(() {
-                                selectedRegistro = newValue;
-                                numberPeople = 1;
-                              });
+                              setState(
+                                () {
+                                  selectedRegistro = newValue;
+                                  numberPeople = 1;
+                                  textPeopleController.clear();
+                                },
+                              );
                             }
                           },
                           isExpanded: true,
@@ -1136,7 +1142,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
                 shrinkWrap: true,
                 itemCount: numberPeople,
                 itemBuilder: (context, index) {
-                  if (textPeopleController.length == 0) {
+                  if (textPeopleController.length != numberPeople) {
                     textPeopleController.add(
                       [
                         '', //genero

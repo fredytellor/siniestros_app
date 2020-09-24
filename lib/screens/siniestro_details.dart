@@ -193,454 +193,470 @@ class _SiniestroDetailsState extends State<SiniestroDetails> {
         print(dirPath);
         final pdf = pw.Document();
         pdf.addPage(
-          pw.Page(
+          pw.MultiPage(
+            footer: (context) {
+              return pw.Container(
+                alignment: pw.Alignment.centerRight,
+                margin: pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+                child: pw.Text(
+                  'Page ${context.pageNumber} of ${context.pagesCount}',
+                  style: pw.Theme.of(context)
+                      .defaultTextStyle
+                      .copyWith(color: PdfColors.grey),
+                ),
+              );
+            },
             pageFormat: PdfPageFormat.a4,
             build: (pw.Context context) {
-              return pw.Column(
-                children: [
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Column(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          widget.siniestroId.documentID,
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['fecha'] +
-                              ' ' +
-                              widget.siniestroId.data['ciudad'],
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Tipo de registro: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['tipo_registro'],
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Ubicación: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['ubicacion'],
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Condición carretera: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['condicion_carretera'],
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Factor ambiental: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['factor_ambiental'],
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Causa primaria: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['causa_primaria'],
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Tipo bien afectado: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['tipo_bien_afectado'],
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Clase bien afectado: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['clase_bien_afectado'],
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Valor del bien afectado: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['valor_bien_afectado'],
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Descripción: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['descripcion'],
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Accion de multa: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['acciones']['multa']
-                              ? 'Aplicada'
-                              : 'No aplicada',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Accion de atención a victimas: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['acciones']
-                                  ['atencion_victimas']
-                              ? 'Aplicada'
-                              : 'No aplicada',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Accion de reporte aseguradora: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['acciones']
-                                  ['reporte_aseguradora']
-                              ? 'Aplicada'
-                              : 'No aplicada',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Accion de otra: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['acciones']['otra']
-                              ? 'Aplicada'
-                              : 'No aplicada',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.Container(
-                    margin: pw.EdgeInsets.only(top: 10),
-                    child: pw.Row(
-                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                      children: [
-                        pw.Text(
-                          'Descripción de otra acción: ',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        pw.Text(
-                          widget.siniestroId.data['accion_otra_texto'],
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  pw.ListView.builder(
-                    itemCount: widget.siniestroId.data['afectados'].length,
-                    itemBuilder: (context, index) {
-                      return pw.Container(
-                        margin: pw.EdgeInsets.only(top: 15),
-                        child: pw.Column(
-                          children: [
-                            pw.Text(
-                              'Afectado #' + (index + 1).toString(),
-                              style: pw.TextStyle(
-                                fontSize: 20,
-                                decoration: pw.TextDecoration.underline,
-                              ),
+              return [
+                pw.Column(
+                  children: [
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Column(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            widget.siniestroId.documentID,
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                              color: PdfColors.indigo,
+                              fontWeight: pw.FontWeight.bold,
                             ),
-                            pw.Container(
-                              margin: pw.EdgeInsets.only(top: 10),
-                              child: pw.Row(
-                                mainAxisAlignment:
-                                    pw.MainAxisAlignment.spaceBetween,
-                                children: [
-                                  pw.Text(
-                                    'Nombre: ',
-                                    style: pw.TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  pw.Text(
-                                    widget.siniestroId.data['afectados'][index]
-                                        ['nombre'],
-                                    style: pw.TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['fecha'] +
+                                ' ' +
+                                widget.siniestroId.data['ciudad'],
+                            style: pw.TextStyle(
+                              fontSize: 20,
                             ),
-                            pw.Container(
-                              margin: pw.EdgeInsets.only(top: 10),
-                              child: pw.Row(
-                                mainAxisAlignment:
-                                    pw.MainAxisAlignment.spaceBetween,
-                                children: [
-                                  pw.Text(
-                                    'Género: ',
-                                    style: pw.TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  pw.Text(
-                                    widget.siniestroId.data['afectados'][index]
-                                        ['genero'],
-                                    style: pw.TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Tipo de registro: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
                             ),
-                            pw.Container(
-                              margin: pw.EdgeInsets.only(top: 10),
-                              child: pw.Row(
-                                mainAxisAlignment:
-                                    pw.MainAxisAlignment.spaceBetween,
-                                children: [
-                                  pw.Text(
-                                    'Estado: ',
-                                    style: pw.TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  pw.Text(
-                                    widget.siniestroId.data['afectados'][index]
-                                        ['estado'],
-                                    style: pw.TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['tipo_registro'],
+                            style: pw.TextStyle(
+                              fontSize: 20,
                             ),
-                            pw.Container(
-                              margin: pw.EdgeInsets.only(top: 10),
-                              child: pw.Row(
-                                mainAxisAlignment:
-                                    pw.MainAxisAlignment.spaceBetween,
-                                children: [
-                                  pw.Text(
-                                    'Placa: ',
-                                    style: pw.TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  pw.Text(
-                                    widget.siniestroId.data['afectados'][index]
-                                        ['placa'],
-                                    style: pw.TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Ubicación: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
                             ),
-                            pw.Container(
-                              margin: pw.EdgeInsets.only(top: 10),
-                              child: pw.Row(
-                                mainAxisAlignment:
-                                    pw.MainAxisAlignment.spaceBetween,
-                                children: [
-                                  pw.Text(
-                                    'Cedula titular: ',
-                                    style: pw.TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  pw.Text(
-                                    widget.siniestroId.data['afectados'][index]
-                                        ['cedula_titular'],
-                                    style: pw.TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['ubicacion'],
+                            style: pw.TextStyle(
+                              fontSize: 20,
                             ),
-                          ],
-                        ),
-                      );
-                    },
-                  )
-                ],
-              );
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Condición carretera: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['condicion_carretera'],
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Factor ambiental: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['factor_ambiental'],
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Causa primaria: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['causa_primaria'],
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Tipo bien afectado: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['tipo_bien_afectado'],
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Clase bien afectado: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['clase_bien_afectado'],
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Valor del bien afectado: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['valor_bien_afectado'],
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Descripción: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['descripcion'],
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Accion de multa: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['acciones']['multa']
+                                ? 'Aplicada'
+                                : 'No aplicada',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Accion de atención a victimas: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['acciones']
+                                    ['atencion_victimas']
+                                ? 'Aplicada'
+                                : 'No aplicada',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Accion de reporte aseguradora: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['acciones']
+                                    ['reporte_aseguradora']
+                                ? 'Aplicada'
+                                : 'No aplicada',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Accion de otra: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['acciones']['otra']
+                                ? 'Aplicada'
+                                : 'No aplicada',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.Container(
+                      margin: pw.EdgeInsets.only(top: 10),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Descripción de otra acción: ',
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          pw.Text(
+                            widget.siniestroId.data['accion_otra_texto'],
+                            style: pw.TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    pw.ListView.builder(
+                      itemCount: widget.siniestroId.data['afectados'].length,
+                      itemBuilder: (context, index) {
+                        return pw.Container(
+                          margin: pw.EdgeInsets.only(top: 15),
+                          child: pw.Column(
+                            children: [
+                              pw.Text(
+                                'Afectado #' + (index + 1).toString(),
+                                style: pw.TextStyle(
+                                  fontSize: 20,
+                                  decoration: pw.TextDecoration.underline,
+                                ),
+                              ),
+                              pw.Container(
+                                margin: pw.EdgeInsets.only(top: 10),
+                                child: pw.Row(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    pw.Text(
+                                      'Nombre: ',
+                                      style: pw.TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    pw.Text(
+                                      widget.siniestroId.data['afectados']
+                                          [index]['nombre'],
+                                      style: pw.TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              pw.Container(
+                                margin: pw.EdgeInsets.only(top: 10),
+                                child: pw.Row(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    pw.Text(
+                                      'Género: ',
+                                      style: pw.TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    pw.Text(
+                                      widget.siniestroId.data['afectados']
+                                          [index]['genero'],
+                                      style: pw.TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              pw.Container(
+                                margin: pw.EdgeInsets.only(top: 10),
+                                child: pw.Row(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    pw.Text(
+                                      'Estado: ',
+                                      style: pw.TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    pw.Text(
+                                      widget.siniestroId.data['afectados']
+                                          [index]['estado'],
+                                      style: pw.TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              pw.Container(
+                                margin: pw.EdgeInsets.only(top: 10),
+                                child: pw.Row(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    pw.Text(
+                                      'Placa: ',
+                                      style: pw.TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    pw.Text(
+                                      widget.siniestroId.data['afectados']
+                                          [index]['placa'],
+                                      style: pw.TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              pw.Container(
+                                margin: pw.EdgeInsets.only(top: 10),
+                                child: pw.Row(
+                                  mainAxisAlignment:
+                                      pw.MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    pw.Text(
+                                      'Cedula titular: ',
+                                      style: pw.TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    pw.Text(
+                                      widget.siniestroId.data['afectados']
+                                          [index]['cedula_titular'],
+                                      style: pw.TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
+              ];
             },
           ),
         );

@@ -25,6 +25,7 @@ class Methods with ChangeNotifier {
     notifyListeners();
   }
 
+  //crea el registro de un siniestro en la base de datos
   Future<String> crearSiniestro(
       /*Siniestro newSiniestro*/ Map newSiniestro) async {
     String docId;

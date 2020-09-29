@@ -264,6 +264,7 @@ class _NewSiniestrosHomeState extends State<NewSiniestrosHome> {
           },
           'accion_otra_texto': textOtherAction.text,
           'afectados': afectados,
+          'registrador': methods.uid,
         };
 
         String siniestroID = await methods.crearSiniestro(newSiniestro);

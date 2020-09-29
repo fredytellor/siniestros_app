@@ -4,14 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:siniestros/providers/methods.dart';
 import 'package:siniestros/screens/image_viewer.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:siniestros/screens/pdf_viewer_page.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class SiniestroDetails extends StatefulWidget {
   final DocumentSnapshot siniestroId;
